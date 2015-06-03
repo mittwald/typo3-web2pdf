@@ -24,22 +24,16 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
-        'title' => 'Web2PDF',
-        'description' => 'Extension provides webpage to pdf rendering.',
-        'category' => 'plugin',
-        'author' => 'Kevin Purrmann',
-        'author_company' => 'Purrmann Websolutions',
-        'author_email' => 'entwicklung@purrmann-websolutions.de',
-        'dependencies' => 'extbase,fluid',
-        'state' => 'alpha',
-        'clearCacheOnLoad' => '1',
-        'version' => '0.0.1',
-        'constraints' => array(
-                'depends' => array(
-                        'typo3' => '4.5.0-7.2.0',
-                        'extbase' => '1.3.4-7.2.0',
-                        'fluid' => '1.3.1-7.2.0',
-                )
-        )
+if (!defined('TYPO3_MODE')) {
+    die ('Access denied.');
+}
+
+TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+        'Mittwald.' . $_EXTKEY,
+        'Pi1',
+        array(
+                'Pdf' => 'generatePdfLink',
+        ),
+        array()
 );
+$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'Mittwald\Web2pdf\Service\PdfRenderService->onFrontendOutput';

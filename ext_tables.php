@@ -1,5 +1,4 @@
 <?php
-
 /* * *************************************************************
  *  Copyright notice
  *
@@ -24,22 +23,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
-        'title' => 'Web2PDF',
-        'description' => 'Extension provides webpage to pdf rendering.',
-        'category' => 'plugin',
-        'author' => 'Kevin Purrmann',
-        'author_company' => 'Purrmann Websolutions',
-        'author_email' => 'entwicklung@purrmann-websolutions.de',
-        'dependencies' => 'extbase,fluid',
-        'state' => 'alpha',
-        'clearCacheOnLoad' => '1',
-        'version' => '0.0.1',
-        'constraints' => array(
-                'depends' => array(
-                        'typo3' => '4.5.0-7.2.0',
-                        'extbase' => '1.3.4-7.2.0',
-                        'fluid' => '1.3.1-7.2.0',
-                )
-        )
+if (!defined('TYPO3_MODE')) {
+    die ('Access denied.');
+}
+
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+        $_EXTKEY,
+        'Pi1',
+        'Web2PDF Generator'
 );
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Web2PDF Generator');

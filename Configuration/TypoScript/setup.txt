@@ -1,0 +1,34 @@
+plugin.tx_web2pdf {
+	view {
+		templateRootPath = {$plugin.tx_web2pdf.view.templateRootPath}
+		partialRootPath = {$plugin.tx_web2pdf.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_web2pdf.view.layoutRootPath}
+	}
+
+	settings {
+		pdfQueryParameter = {$plugin.tx_web2pdf.settings.pdfQueryParameter}
+		pdfPageFormat = {$plugin.tx_web2pdf.settings.pdfPageFormat}
+		pdfPageOrientation = {$plugin.tx_web2pdf.settings.pdfPageOrientation}
+		pdfFont = {$plugin.tx_web2pdf.settings.pdfFont}
+		pdfFontSize = {$plugin.tx_web2pdf.settings.pdfFontSize}
+		pdfLeftMargin = {$plugin.tx_web2pdf.settings.pdfLeftMargin}
+		pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
+		pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
+	}
+}
+
+lib.web2pdf = USER
+lib.web2pdf {
+	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+	pluginName = Pi1
+	extensionName = Web2pdf
+	vendorName = Mittwald
+	controller = Pdf
+	action = generatePdfLink
+}
+
+# Need this line because typoscript config is not loaded without this line
+config.prefixLocalAnchors = all
+
+page.30 < lib.web2pdf
+
