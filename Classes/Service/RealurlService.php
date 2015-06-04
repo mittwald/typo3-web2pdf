@@ -50,6 +50,15 @@ class RealurlService {
 
 
         return array_merge_recursive($params['config'], array(
+                'fileName' => array(
+                        'index' => array(
+                                '.pdf' => array(
+                                        'keyValues' => array(
+                                                'tx_web2pdf_pi1[argument]' => 'printPage',
+                                        )
+                                ),
+                        )
+                ),
                 'postVarSets' => array(
                         '_DEFAULT' => array(
                                 'web2pdf' => array(
@@ -59,13 +68,6 @@ class RealurlService {
                                         ),
                                         array(
                                                 'GETvar' => 'tx_web2pdf_pi1[action]',
-                                                'noMatch' => 'bypass',
-                                        ),
-                                        array(
-                                                'GETvar' => 'tx_web2pdf_pi1[argument]',
-                                                'valueMap' => array(
-                                                        'pdf' => ModuleOptions::QUERY_PARAMETER
-                                                ),
                                                 'noMatch' => 'bypass',
                                         ),
                                 ),
