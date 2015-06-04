@@ -1,5 +1,4 @@
 <?php
-
 /* * *************************************************************
  *  Copyright notice
  *
@@ -24,22 +23,33 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
-        'title' => 'Web2PDF',
-        'description' => 'Extension provides webpage to pdf rendering.',
-        'category' => 'plugin',
-        'author' => 'Kevin Purrmann',
-        'author_company' => 'Purrmann Websolutions',
-        'author_email' => 'entwicklung@purrmann-websolutions.de',
-        'dependencies' => 'extbase,fluid',
-        'state' => 'stable',
-        'clearCacheOnLoad' => '1',
-        'version' => '0.0.3',
-        'constraints' => array(
-                'depends' => array(
-                        'typo3' => '6.0.0-7.2.0',
-                        'extbase' => '6.0.0-7.2.0',
-                        'fluid' => '6.0.0-7.2.0',
-                )
-        )
-);
+namespace Mittwald\Web2pdf\Utility;
+
+
+/**
+ * Class provides functionality to convert strings into appreciable filename
+ *
+ * @auto Kevin Purrmann <entwicklung@purrmann-websolutions.de>, Purrmann Websolutions
+ * @package Mittwald
+ * @subpackage Web2Pdf\Utility
+ */
+class FilenameUtility {
+
+
+    /**
+     * @param string $fileName
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public function convert($fileName) {
+
+        if (!is_string($fileName)) {
+            throw new \InvalidArgumentException('String needed as argument');
+        }
+
+        $fileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-üäö]/'), array('_', '.', ''), $fileName);
+
+
+        return $fileName;
+    }
+}

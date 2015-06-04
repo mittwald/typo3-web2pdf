@@ -46,6 +46,15 @@
             <trans-unit id="constants.pdf.pageOrientation.landscape">
                 <source>Landscape</source>
             </trans-unit>
+            <trans-unit id="constants.pdf.styleSheet">
+                <source>Which style sheet media should be loaded (`all` is always included)</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.styleSheet.print">
+                <source>print</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.styleSheet.screen">
+                <source>screen</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
