@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2015-06-03T08:19:39Z"
+          product-name="web2pdf">
+        <header/>
+        <body>
+            <trans-unit id="constants.category.pdf">
+                <source>PDF format settings</source>
+            </trans-unit>
+            <trans-unit id="constants.file.templates">
+                <source>Template path</source>
+            </trans-unit>
+            <trans-unit id="constants.file.partials">
+                <source>Partial path</source>
+            </trans-unit>
+            <trans-unit id="constants.file.layouts">
+                <source>Layout path</source>
+            </trans-unit>
+            <trans-unit id="constants.others.queryParameter">
+                <source>Query Parameter</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.pageOrientation">
+                <source>Orientation</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.topMargin">
+                <source>Top margin</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.rightMargin">
+                <source>Right margin</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.leftMargin">
+                <source>Left margin</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.fontSize">
+                <source>Default font size</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.font">
+                <source>Default font</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.pageFormat">
+                <source>Format</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.pageOrientation.portrait">
+                <source>Portrait</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.pageOrientation.landscape">
+                <source>Landscape</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

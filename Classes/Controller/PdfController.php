@@ -24,22 +24,24 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
-        'title' => 'Web2PDF',
-        'description' => 'Extension provides webpage to pdf rendering.',
-        'category' => 'plugin',
-        'author' => 'Kevin Purrmann',
-        'author_company' => 'Purrmann Websolutions',
-        'author_email' => 'entwicklung@purrmann-websolutions.de',
-        'dependencies' => 'extbase,fluid',
-        'state' => 'stable',
-        'clearCacheOnLoad' => '1',
-        'version' => '0.0.2',
-        'constraints' => array(
-                'depends' => array(
-                        'typo3' => '6.0.0-7.2.0',
-                        'extbase' => '6.0.0-7.2.0',
-                        'fluid' => '6.0.0-7.2.0',
-                )
-        )
-);
+namespace Mittwald\Web2pdf\Controller;
+
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+
+/**
+ * Controller provides partial view for pdf link
+ *
+ * @author Kevin Purrmann <entwicklung@purrmann-websolutions.de>, Purrmann Websolutions
+ * @package Mittwald
+ * @subpackage Web2Pdf\Controller
+ */
+class PdfController extends ActionController {
+
+    /**
+     * Method provides link generation
+     *
+     */
+    public function generatePdfLinkAction() {
+    }
+
+}
