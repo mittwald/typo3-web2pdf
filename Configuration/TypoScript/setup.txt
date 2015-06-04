@@ -6,7 +6,6 @@ plugin.tx_web2pdf {
 	}
 
 	settings {
-		pdfQueryParameter = {$plugin.tx_web2pdf.settings.pdfQueryParameter}
 		pdfPageFormat = {$plugin.tx_web2pdf.settings.pdfPageFormat}
 		pdfPageOrientation = {$plugin.tx_web2pdf.settings.pdfPageOrientation}
 		pdfFont = {$plugin.tx_web2pdf.settings.pdfFont}

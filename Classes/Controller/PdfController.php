@@ -26,6 +26,7 @@
 
 namespace Mittwald\Web2pdf\Controller;
 
+use Mittwald\Web2pdf\Options\ModuleOptions;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -42,6 +43,8 @@ class PdfController extends ActionController {
      *
      */
     public function generatePdfLinkAction() {
+        $this->settings['pdfQueryParameter'] = ModuleOptions::QUERY_PARAMETER;
+        $this->view->assign('settings', $this->settings);
     }
 
 }

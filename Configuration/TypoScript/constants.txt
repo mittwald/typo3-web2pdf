@@ -12,8 +12,6 @@ plugin.tx_web2pdf {
 	}
 
 	settings {
-		# cat=plugin.tx_web2pdf//b; type=string; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.others.queryParameter
-		pdfQueryParameter = printPage
 		# cat=plugin.tx_web2pdf/pdf/1; type=options[A4,A3]; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.pageFormat
 		pdfPageFormat = A4
 		# cat=plugin.tx_web2pdf/pdf/2; type=options[LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.pageOrientation.portrait=P,LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.pageOrientation.landscape=L]; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.pageOrientation

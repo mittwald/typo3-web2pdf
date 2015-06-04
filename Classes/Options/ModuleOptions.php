@@ -34,6 +34,8 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  */
 class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
 
+    const QUERY_PARAMETER = 'printPage';
+
     /**
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
      * @inject
