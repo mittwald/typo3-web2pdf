@@ -45,32 +45,24 @@ class PdfView extends TemplateView {
     protected $options;
 
     /**
+     * @var \Mittwald\Web2pdf\Utility\FilenameUtility
+     * @inject
+     */
+    protected $fileNameUtility;
+
+    /**
      * Renders the view
      *
-     * @return string The rendered view
-     * @api
+     * @param string $content The HTML Code to convert
+     * @param string $pageTitle
+     * @return \TYPO3\CMS\Extbase\Mvc\Web\Response The rendered view
      */
     public function renderHtmlOutput($content, $pageTitle) {
         $pdf = $this->getPdfObject();
         $pdf->WriteHTML($content);
-        $fileU = $this->getFileUtility();
 
-        return $pdf->Output($fileU->cleanFileName($pageTitle . '.pdf'), 'D'); // Parameter D=>Display; F=>SaveAsFile
+        return $pdf->Output($this->fileNameUtility->convert($pageTitle) . '.pdf', 'D'); // Parameter D=>Display; F=>SaveAsFile
 
-    }
-
-    /**
-     * @return \TYPO3\CMS\Core\Utility\File\BasicFileUtility
-     */
-    protected function getFileUtility() {
-        return $this->objectManager->get('TYPO3\CMS\Core\Utility\File\BasicFileUtility');
-    }
-
-    /**
-     * @return \TYPO3\CMS\Extbase\Mvc\Web\Response
-     */
-    protected function getResponse() {
-        return $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Web\Response');
     }
 
     /**
@@ -79,6 +71,7 @@ class PdfView extends TemplateView {
      */
     protected function getPdfObject() {
 
+        // Get options from TypoScript
         $pageFormat = ($this->options->getPdfPageFormat()) ? $this->options->getPdfPageFormat() : 'A4';
         $pageOrientation = ($orientation = $this->options->getPdfPageOrientation()) ? $orientation : 'L';
         $font = ($this->options->getPdfFont()) ? $this->options->getPdfFont() : 'helvetica';
@@ -96,12 +89,5 @@ class PdfView extends TemplateView {
         $pdf->SetFontSize($fontSize);
         $pdf->AddPage();
         return $pdf;
-    }
-
-    /**
-     * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext
-     */
-    public function getControllerContext() {
-        return $this->controllerContext;
     }
 }
