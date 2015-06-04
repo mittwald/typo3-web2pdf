@@ -14,6 +14,7 @@ plugin.tx_web2pdf {
 		pdfLeftMargin = {$plugin.tx_web2pdf.settings.pdfLeftMargin}
 		pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
 		pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
+		pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
 	}
 }
 

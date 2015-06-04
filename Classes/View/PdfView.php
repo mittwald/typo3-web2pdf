@@ -86,11 +86,13 @@ class PdfView extends TemplateView {
         $leftMargin = ($this->options->getPdfLeftMargin()) ? $this->options->getPdfLeftMargin() : '15';
         $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
+        $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
 
         /* @var $pdf \mPDF */
         $pdf = $this->objectManager->get('mPDF', '', $pageFormat . '-' . $pageOrientation);
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
         $pdf->SetFont($font);
+        $pdf->CSSselectMedia = $styleSheet;
         $pdf->SetFontSize($fontSize);
         $pdf->AddPage();
         return $pdf;
