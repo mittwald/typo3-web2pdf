@@ -66,6 +66,7 @@ class PdfView extends TemplateView {
     }
 
     /**
+     * Returns configured mPDF object
      *
      * @return \mPDF
      */
@@ -74,8 +75,6 @@ class PdfView extends TemplateView {
         // Get options from TypoScript
         $pageFormat = ($this->options->getPdfPageFormat()) ? $this->options->getPdfPageFormat() : 'A4';
         $pageOrientation = ($orientation = $this->options->getPdfPageOrientation()) ? $orientation : 'L';
-        $font = ($this->options->getPdfFont()) ? $this->options->getPdfFont() : 'helvetica';
-        $fontSize = ($this->options->getPdfFontSize()) ? $this->options->getPdfFontSize() : '11';
         $leftMargin = ($this->options->getPdfLeftMargin()) ? $this->options->getPdfLeftMargin() : '15';
         $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
@@ -84,9 +83,7 @@ class PdfView extends TemplateView {
         /* @var $pdf \mPDF */
         $pdf = $this->objectManager->get('mPDF', '', $pageFormat . '-' . $pageOrientation);
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
-        $pdf->SetFont($font);
         $pdf->CSSselectMedia = $styleSheet;
-        $pdf->SetFontSize($fontSize);
         $pdf->AddPage();
         return $pdf;
     }
