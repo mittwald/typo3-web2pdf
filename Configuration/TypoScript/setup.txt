@@ -30,5 +30,3 @@ lib.web2pdf {
 # Need this line because typoscript config is not loaded without this line
 config.prefixLocalAnchors = all
 
-page.30 < lib.web2pdf
-
