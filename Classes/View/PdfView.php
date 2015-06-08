@@ -37,7 +37,9 @@ use TYPO3\CMS\Fluid\View\TemplateView;
  */
 class PdfView extends TemplateView {
 
+    const PREG_REPLACEMENT_KEY = 'pregReplacements';
 
+    const STR_REPLACEMENT_KEY = 'strReplacements';
     /**
      * @var \Mittwald\Web2pdf\Options\ModuleOptions
      * @inject
@@ -58,11 +60,35 @@ class PdfView extends TemplateView {
      * @return \TYPO3\CMS\Extbase\Mvc\Web\Response The rendered view
      */
     public function renderHtmlOutput($content, $pageTitle) {
+        $content = $this->replaceStrings($content);
         $pdf = $this->getPdfObject();
         $pdf->WriteHTML($content);
 
         return $pdf->Output($this->fileNameUtility->convert($pageTitle) . '.pdf', 'D'); // Parameter D=>Display; F=>SaveAsFile
 
+    }
+
+    /**
+     * Replacements of configured strings
+     *
+     * @param $content
+     * @return string
+     */
+    private function replaceStrings($content) {
+
+        if (is_array($this->options->getStrReplacements())) {
+            foreach ($this->options->getStrReplacements() as $searchString => $replacement) {
+                $content = str_replace($searchString, $replacement, $content);
+            }
+        }
+
+        if (is_array($this->options->getPregReplacements())) {
+            foreach ($this->options->getPregReplacements() as $pattern => $patternReplacement) {
+                $content = preg_replace($pattern, $patternReplacement, $content);
+            }
+        }
+
+        return $content;
     }
 
     /**
