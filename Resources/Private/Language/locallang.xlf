@@ -4,6 +4,9 @@
           product-name="web2pdf">
         <header/>
         <body>
+            <trans-unit id="web2pdf.printLabel">
+                <source>Print Current Page</source>
+            </trans-unit>
             <trans-unit id="constants.category.pdf">
                 <source>PDF format settings</source>
             </trans-unit>
