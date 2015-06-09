@@ -37,7 +37,9 @@ use TYPO3\CMS\Fluid\View\TemplateView;
  */
 class PdfView extends TemplateView {
 
+    const PREG_REPLACEMENT_KEY = 'pregReplacements';
 
+    const STR_REPLACEMENT_KEY = 'strReplacements';
     /**
      * @var \Mittwald\Web2pdf\Options\ModuleOptions
      * @inject
@@ -58,6 +60,7 @@ class PdfView extends TemplateView {
      * @return \TYPO3\CMS\Extbase\Mvc\Web\Response The rendered view
      */
     public function renderHtmlOutput($content, $pageTitle) {
+        $content = $this->replaceStrings($content);
         $pdf = $this->getPdfObject();
         $pdf->WriteHTML($content);
 
@@ -66,6 +69,30 @@ class PdfView extends TemplateView {
     }
 
     /**
+     * Replacements of configured strings
+     *
+     * @param $content
+     * @return string
+     */
+    private function replaceStrings($content) {
+
+        if (is_array($this->options->getStrReplacements())) {
+            foreach ($this->options->getStrReplacements() as $searchString => $replacement) {
+                $content = str_replace($searchString, $replacement, $content);
+            }
+        }
+
+        if (is_array($this->options->getPregReplacements())) {
+            foreach ($this->options->getPregReplacements() as $pattern => $patternReplacement) {
+                $content = preg_replace($pattern, $patternReplacement, $content);
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * Returns configured mPDF object
      *
      * @return \mPDF
      */
@@ -74,8 +101,6 @@ class PdfView extends TemplateView {
         // Get options from TypoScript
         $pageFormat = ($this->options->getPdfPageFormat()) ? $this->options->getPdfPageFormat() : 'A4';
         $pageOrientation = ($orientation = $this->options->getPdfPageOrientation()) ? $orientation : 'L';
-        $font = ($this->options->getPdfFont()) ? $this->options->getPdfFont() : 'helvetica';
-        $fontSize = ($this->options->getPdfFontSize()) ? $this->options->getPdfFontSize() : '11';
         $leftMargin = ($this->options->getPdfLeftMargin()) ? $this->options->getPdfLeftMargin() : '15';
         $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
@@ -84,9 +109,7 @@ class PdfView extends TemplateView {
         /* @var $pdf \mPDF */
         $pdf = $this->objectManager->get('mPDF', '', $pageFormat . '-' . $pageOrientation);
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
-        $pdf->SetFont($font);
         $pdf->CSSselectMedia = $styleSheet;
-        $pdf->SetFontSize($fontSize);
         $pdf->AddPage();
         return $pdf;
     }

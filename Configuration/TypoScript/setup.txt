@@ -6,15 +6,28 @@ plugin.tx_web2pdf {
 	}
 
 	settings {
-		pdfQueryParameter = {$plugin.tx_web2pdf.settings.pdfQueryParameter}
 		pdfPageFormat = {$plugin.tx_web2pdf.settings.pdfPageFormat}
 		pdfPageOrientation = {$plugin.tx_web2pdf.settings.pdfPageOrientation}
-		pdfFont = {$plugin.tx_web2pdf.settings.pdfFont}
-		pdfFontSize = {$plugin.tx_web2pdf.settings.pdfFontSize}
 		pdfLeftMargin = {$plugin.tx_web2pdf.settings.pdfLeftMargin}
 		pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
 		pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
 		pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
+
+		pdfPregSearch {
+			1 =
+		}
+
+		pdfPregReplace {
+			1 =
+		}
+
+		pdfStrSearch {
+			1 =
+		}
+
+		pdfStrReplace {
+			1 =
+		}
 	}
 }
 
@@ -29,7 +42,17 @@ lib.web2pdf {
 }
 
 # Need this line because typoscript config is not loaded without this line
-config.prefixLocalAnchors = all
+# May be a bug in TYPO3 Core up to 7.2
+config {
+	linkVars = L(0-3), ansicht
+	uniqueLinkVars = 1
+	sys_language_uid = 0
+	language = de
+	meaningfulTempFilePrefix = 64
+	prefixLocalAnchors = all
+	absRefPrefix = http://php55.dev/typo3-62/
+	simulateStaticDocuments = 0
+}
 
-page.30 < lib.web2pdf
-
+# Example include of generate pdf link
+page.100 < lib.web2pdf

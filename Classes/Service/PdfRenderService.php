@@ -103,7 +103,7 @@ class PdfRenderService {
     protected function renderAsPdf() {
         return ($this->getRequest()->hasArgument('argument') &&
                 ($query = $this->getRequest()->getArgument('argument')) &&
-                ($query == $this->options->getPdfQueryParameter())
+                ($query == \Mittwald\Web2pdf\Options\ModuleOptions::QUERY_PARAMETER)
         );
     }
 
