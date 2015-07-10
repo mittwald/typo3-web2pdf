@@ -29,8 +29,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 
 /**
- * Class provides access to all typoscript settings
- * which are set in Configuration/TypoScript/setup.txt
+ * Description of class ModuleOptions
  *
  */
 class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {

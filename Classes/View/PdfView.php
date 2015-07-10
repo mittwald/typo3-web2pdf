@@ -26,6 +26,7 @@
 namespace Mittwald\Web2pdf\View;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\View\TemplateView;
 
 
 /**
@@ -35,7 +36,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Mittwald
  * @subpackage Web2Pdf\View
  */
-class PdfView {
+class PdfView extends TemplateView {
 
     const PREG_REPLACEMENT_KEY = 'pregReplacements';
 
@@ -51,19 +52,6 @@ class PdfView {
      * @inject
      */
     protected $fileNameUtility;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
-     * @throws \InvalidArgumentException
-     */
-    public function __construct() {
-
-        $this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-    }
 
     /**
      * Renders the view
@@ -89,6 +77,9 @@ class PdfView {
         header('Pragma: public');
         header('Expires: 0');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Content-Type: application/force-download');
+        header('Content-Type: application/octet-stream', false);
+        header('Content-Type: application/download', false);
         header('Content-Type: application/pdf', false);
         header('Content-Disposition: attachment; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
         readfile($filePath);
