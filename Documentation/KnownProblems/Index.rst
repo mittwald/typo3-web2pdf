@@ -11,4 +11,5 @@
 Known Problems
 ==============
 
-None. Send an email to entwicklung@purrmann-websolutions.de, if you found one.
+Use issue tracker on https://github.com/mittwald/typo3-web2pdf/issues
+
