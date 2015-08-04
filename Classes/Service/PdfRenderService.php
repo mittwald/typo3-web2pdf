@@ -88,9 +88,18 @@ class PdfRenderService {
 
             return $this->view->renderHtmlOutput(
                     $this->frontendController->content,
-                    $this->frontendController->page['title']
+                    $this->getPageTitle()
             );
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPageTitle() {
+        return $this->frontendController->altPageTitle ?
+                $this->frontendController->altPageTitle :
+                $this->frontendController->indexedDocTitle;
     }
 
     /**
