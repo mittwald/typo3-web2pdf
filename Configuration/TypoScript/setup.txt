@@ -12,6 +12,7 @@ plugin.tx_web2pdf {
 		pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
 		pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
 		pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
+		showPageNumber = {$plugin.tx_web2pdf.settings.showPageNumber}
 
 		pdfPregSearch {
 			1 =
