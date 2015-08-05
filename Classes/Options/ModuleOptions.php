@@ -54,8 +54,9 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
      * @throws \TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException
      */
     public function initializeObject() {
-        if ($this->options = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'web2pdf', 'settings')) {
+        $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
+        if ($this->options = array_merge($configuration['plugin.']['tx_web2pdf.']['settings.'], $configuration['plugin.']['tx_web2pdf.']['view.'])) {
             if (is_array($this->options['pdfPregSearch']) && is_array($this->options['pdfPregReplace'])) {
                 $this->mergeReplaceConfiguration($this->options['pdfPregSearch'], $this->options['pdfPregReplace'], \Mittwald\Web2pdf\View\PdfView::PREG_REPLACEMENT_KEY);
                 unset($this->options['pdfPregSearch'], $this->options['pdfPregReplace']);
