@@ -24,6 +24,7 @@ TypoScript Reference
 --------------------
 
 * PDF Configuration can be set in constant editor or TypoScript
+* Example Footer and Header HTML files can be found in partialRootPath/Pdf/Header.html (with pagenum and date)
 ::
 
 	plugin.web2pdf.settings {
@@ -36,6 +37,10 @@ TypoScript Reference
 		pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
 		# which stylesheet to use: print or screen stylesheet
 		pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
+		# use header partial in plugin.web2pdf.view.partialRootPath/Pdf/Header.html
+		useCustomHeader = 0
+		# use footer partial in plugin.web2pdf.view.partialRootPath/Pdf/Footer.html
+		useCustomHeader = 0
 	}
 
 Replacements
@@ -62,6 +67,7 @@ Can be set via TypoScript using following options:
 		pdfStrReplace {
 			1 =
 		}
+
 	}
 Example: Replace `Hello` with `Good Night`
 ::
