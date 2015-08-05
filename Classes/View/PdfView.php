@@ -80,8 +80,16 @@ class PdfView {
 
         $content = $this->replaceStrings($content);
         $pdf = $this->getPdfObject();
-        $pdf->SetHTMLHeader($this->getPartial('Header', array('title' => $pageTitle)));
-        $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
+
+        // Add Header
+        if ($this->options->getUseCustomHeader()) {
+            $pdf->SetHTMLHeader($this->getPartial('Header', array('title' => $pageTitle)));
+        }
+        // Add Footer
+        if ($this->options->getUseCustomFooter()) {
+            $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
+        }
+
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 

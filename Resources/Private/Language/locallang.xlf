@@ -58,6 +58,12 @@
             <trans-unit id="constants.pdf.styleSheet.screen">
                 <source>screen</source>
             </trans-unit>
+            <trans-unit id="constants.pdf.useCustomFooter">
+                <source>Use custom fluid footer</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.useCustomHeader">
+                <source>Use custom fluid header</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

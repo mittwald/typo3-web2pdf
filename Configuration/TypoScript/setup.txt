@@ -12,6 +12,8 @@ plugin.tx_web2pdf {
 		pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
 		pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
 		pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
+		useCustomHeader = {$plugin.tx_web2pdf.settings.useCustomHeader}
+		useCustomFooter = {$plugin.tx_web2pdf.settings.useCustomFooter}
 
 		pdfPregSearch {
 			1 =
