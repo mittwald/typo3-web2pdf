@@ -138,7 +138,11 @@ class PdfView {
         $pdf = $this->objectManager->get('mPDF', '', $pageFormat . '-' . $pageOrientation);
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
         $pdf->CSSselectMedia = $styleSheet;
-        $pdf->AddPage();
+
+        if ($this->options->getShowPageNumber()) {
+            $pdf->SetFooter('{PAGENO}/{nb}');
+        }
+
         return $pdf;
     }
 }

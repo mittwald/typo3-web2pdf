@@ -58,6 +58,9 @@
             <trans-unit id="constants.pdf.styleSheet.screen">
                 <source>screen</source>
             </trans-unit>
+            <trans-unit id="constants.pdf.showPageNumber">
+                <source>Show page numbers</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
