@@ -24,7 +24,10 @@ plugin.tx_web2pdf {
 		pdfTopMargin = 15
 		# cat=plugin.tx_web2pdf/pdf/6; type=options[LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet.print=print,LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet.screen=screen]; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet
 		pdfStyleSheet = print
-		# cat=plugin.tx_web2pdf/pdf/7; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.showPageNumber
-		showPageNumber = 0
+		# cat=plugin.tx_web2pdf/pdf/8; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.useCustomFooter
+		useCustomFooter = 0
+		# cat=plugin.tx_web2pdf/pdf/8; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.useCustomHeader
+		useCustomHeader = 0
+
 	}
 }
