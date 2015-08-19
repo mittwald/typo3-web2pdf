@@ -25,6 +25,7 @@
 
 namespace Mittwald\Web2pdf\View;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -79,6 +80,16 @@ class PdfView {
 
         $content = $this->replaceStrings($content);
         $pdf = $this->getPdfObject();
+
+        // Add Header
+        if ($this->options->getUseCustomHeader()) {
+            $pdf->SetHTMLHeader($this->getPartial('Header', array('title' => $pageTitle)));
+        }
+        // Add Footer
+        if ($this->options->getUseCustomFooter()) {
+            $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
+        }
+
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
@@ -139,10 +150,21 @@ class PdfView {
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
         $pdf->CSSselectMedia = $styleSheet;
 
-        if ($this->options->getShowPageNumber()) {
-            $pdf->SetFooter('{PAGENO}/{nb}');
-        }
-
         return $pdf;
     }
+
+    /**
+     * @param $templateName
+     * @return string
+     */
+    protected function getPartial($templateName, $arguments = array()) {
+        /* @var $partial \TYPO3\CMS\Fluid\View\StandaloneView */
+        $partial = $this->objectManager->get('TYPO3\CMS\Fluid\View\StandaloneView');
+        $partial->setLayoutRootPath(GeneralUtility::getFileAbsFileName($this->options->getLayoutRootPath()));
+        $partial->setPartialRootPath(GeneralUtility::getFileAbsFileName($this->options->getPartialRootPath()));
+        $partial->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->options->getPartialRootPath()) . 'Pdf/' . ucfirst($templateName) . '.html');
+        $partial->assign('data', $arguments);
+        return $partial->render();
+    }
+
 }
