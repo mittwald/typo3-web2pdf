@@ -24,6 +24,7 @@ TypoScript Reference
 --------------------
 
 * PDF Configuration can be set in constant editor or TypoScript
+* Include Static Typoscript Template in BackendModule "Templates"
 * Example Footer and Header HTML files can be found in partialRootPath/Pdf/Header.html (with pagenum and date)
 ::
 

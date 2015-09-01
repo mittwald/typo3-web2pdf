@@ -56,7 +56,11 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
     public function initializeObject() {
         $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
-        if ($this->options = array_merge($configuration['plugin.']['tx_web2pdf.']['settings.'], $configuration['plugin.']['tx_web2pdf.']['view.'])) {
+        // Check if typoscript is given before, if not ignore
+        if (isset($configuration['plugin.']['tx_web2pdf.']['settings.']) &&
+                isset($configuration['plugin.']['tx_web2pdf.']['view.']) &&
+                ($this->options = array_merge($configuration['plugin.']['tx_web2pdf.']['settings.'], $configuration['plugin.']['tx_web2pdf.']['view.']))
+        ) {
             if (is_array($this->options['pdfPregSearch']) && is_array($this->options['pdfPregReplace'])) {
                 $this->mergeReplaceConfiguration($this->options['pdfPregSearch'], $this->options['pdfPregReplace'], \Mittwald\Web2pdf\View\PdfView::PREG_REPLACEMENT_KEY);
                 unset($this->options['pdfPregSearch'], $this->options['pdfPregReplace']);
