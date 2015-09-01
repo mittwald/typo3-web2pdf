@@ -106,8 +106,9 @@ class PdfRenderService {
          * @see https://github.com/mittwald/typo3-web2pdf/issues/20
          */
         if (is_null($title)) {
-            return $this->frontendController->page['title'];
+            $title = $this->frontendController->page['title'];
         }
+        return $title;
     }
 
     /**
