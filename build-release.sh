@@ -18,4 +18,4 @@ sed -i -e "s,[0-9]\.[0-9]-dev,${VERSION},g" composer.json ext_emconf.php
 git add composer.json ext_emconf.php
 git commit -m"Release version ${VERSION}"
 git tag -s -m"Release version ${VERSION}" v${VERSION}
-#git push --tags
+git push --tags
