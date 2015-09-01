@@ -97,9 +97,18 @@ class PdfRenderService {
      * @return string
      */
     protected function getPageTitle() {
-        return $this->frontendController->altPageTitle ?
+        $title = $this->frontendController->altPageTitle ?
                 $this->frontendController->altPageTitle :
                 $this->frontendController->indexedDocTitle;
+
+        /**
+         * Use backend page title if no other page title is found
+         * @see https://github.com/mittwald/typo3-web2pdf/issues/20
+         */
+        if (is_null($title)) {
+            $title = $this->frontendController->page['title'];
+        }
+        return $title;
     }
 
     /**
