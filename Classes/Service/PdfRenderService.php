@@ -103,8 +103,9 @@ class PdfRenderService {
 
         // Use backend page title if no other page title is found
         if (is_null($title)) {
-            return $this->frontendController->page['title'];
+            $title = $this->frontendController->page['title'];
         }
+        return $title;
     }
 
     /**
