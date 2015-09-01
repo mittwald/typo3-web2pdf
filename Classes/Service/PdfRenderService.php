@@ -101,10 +101,7 @@ class PdfRenderService {
                 $this->frontendController->altPageTitle :
                 $this->frontendController->indexedDocTitle;
 
-        /**
-         * Use backend page title if no other page title is found
-         * @see https://github.com/mittwald/typo3-web2pdf/issues/20
-         */
+        // Use backend page title if no other page title is found
         if (is_null($title)) {
             return $this->frontendController->page['title'];
         }
