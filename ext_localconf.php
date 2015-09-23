@@ -34,7 +34,9 @@ TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         array(
                 'Pdf' => 'generatePdfLink',
         ),
-        array()
+        array(
+                'Pdf' => 'generatePdfLink',
+        )
 );
 
 // Add default real url config

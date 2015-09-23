@@ -26,7 +26,7 @@
 
 $EM_CONF[$_EXTKEY] = array(
         'title' => 'Web2PDF',
-        'description' => 'Extension provides webpage to pdf rendering.',
+        'description' => 'This Extension renders the pagecontent to a PDF file. It supports css and uses the library mPDF. This extension is based on the pdf_generator2.',
         'category' => 'plugin',
         'author' => 'Kevin Purrmann',
         'author_company' => 'Purrmann Websolutions',
@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
         'dependencies' => 'extbase,fluid',
         'state' => 'stable',
         'clearCacheOnLoad' => '1',
-        'version' => '1.0.1',
+        'version' => '1.1-dev',
         'constraints' => array(
                 'depends' => array(
                         'typo3' => '6.0.0-7.2.0',
