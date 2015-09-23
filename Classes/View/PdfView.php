@@ -127,7 +127,7 @@ class PdfView {
             }
         }
 
-        return $content;
+        return preg_replace('/href=\"(.*?)#(.*?)\"/', 'href="#$2"', $content);
     }
 
     /**
