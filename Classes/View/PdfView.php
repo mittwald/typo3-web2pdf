@@ -127,7 +127,15 @@ class PdfView {
             }
         }
 
-        return preg_replace('/href=\"(.*?)#(.*?)\"/', 'href="#$2"', $content);
+        return preg_replace_callback('/href=\"(.*?)#(.*?)\"/', function ($hit) {
+
+            if (preg_match('/http/', $hit[1])) {
+                return $hit[0];
+            }
+
+            return 'href="#' . $hit[2] . '"';
+
+        }, $content);
     }
 
     /**
