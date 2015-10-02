@@ -127,13 +127,19 @@ class PdfView {
             }
         }
 
-        return preg_replace_callback('/href=\"(.*?)#(.*?)\"/', function ($hit) {
+        return preg_replace_callback('/\<a (.*?)>/', function ($hit) {
 
-            if (preg_match('/http/', $hit[1])) {
-                return $hit[0];
-            }
+            $completeATag = $hit[0];
+            $returnTag = preg_replace_callback('/href="(.*)#(.*)"/', function ($href) {
 
-            return 'href="#' . $hit[2] . '"';
+                if (!empty($href[2]) &&
+                        ($href[1] === '/' . str_replace('&', '&amp;', GeneralUtility::getIndpEnv(TYPO3_SITE_SCRIPT)))
+                ) {
+                    return 'href="#' . $href[2] . '"';
+                }
+            }, $completeATag);
+
+            return $returnTag;
 
         }, $content);
     }
