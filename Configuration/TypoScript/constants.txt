@@ -23,7 +23,7 @@ plugin.tx_web2pdf {
 		# cat=plugin.tx_web2pdf/pdf/5; type=int+; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.topMargin
 		pdfTopMargin = 15
 		# cat=plugin.tx_web2pdf/pdf/6; type=options[LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet.print=print,LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet.screen=screen]; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet
-		pdfStyleSheet = print
+		pdfStyleSheet = allAndPrint
 		# cat=plugin.tx_web2pdf/pdf/8; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.useCustomFooter
 		useCustomFooter = 0
 		# cat=plugin.tx_web2pdf/pdf/8; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.useCustomHeader

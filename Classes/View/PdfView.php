@@ -162,7 +162,12 @@ class PdfView {
         /* @var $pdf \mPDF */
         $pdf = $this->objectManager->get('mPDF', '', $pageFormat . '-' . $pageOrientation);
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
-        $pdf->CSSselectMedia = $styleSheet;
+
+        if ($styleSheet == 'print' || $styleSheet == 'screen') {
+            $pdf->CSSselectMedia = $styleSheet;
+        } else {
+            unset($pdf->CSSselectMedia);
+        }
 
         return $pdf;
     }
