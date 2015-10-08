@@ -127,7 +127,21 @@ class PdfView {
             }
         }
 
-        return $content;
+        return preg_replace_callback('/\<a (.*?)>/', function ($hit) {
+
+            $completeATag = $hit[0];
+            $returnTag = preg_replace_callback('/href="(.*)#(.*)"/', function ($href) {
+
+                if (!empty($href[2]) &&
+                        ($href[1] === '/' . str_replace('&', '&amp;', GeneralUtility::getIndpEnv(TYPO3_SITE_SCRIPT)))
+                ) {
+                    return 'href="#' . $href[2] . '"';
+                }
+            }, $completeATag);
+
+            return $returnTag;
+
+        }, $content);
     }
 
     /**
@@ -148,7 +162,12 @@ class PdfView {
         /* @var $pdf \mPDF */
         $pdf = $this->objectManager->get('mPDF', '', $pageFormat . '-' . $pageOrientation);
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
-        $pdf->CSSselectMedia = $styleSheet;
+
+        if ($styleSheet == 'print' || $styleSheet == 'screen') {
+            $pdf->CSSselectMedia = $styleSheet;
+        } else {
+            unset($pdf->CSSselectMedia);
+        }
 
         return $pdf;
     }
