@@ -54,6 +54,12 @@ class PdfView {
     protected $fileNameUtility;
 
     /**
+     * @var \Mittwald\Web2pdf\Utility\PdfLinkUtility
+     * @inject
+     */
+    protected $pdfLinkUtility;
+
+    /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
      */
     protected $objectManager;
@@ -127,21 +133,7 @@ class PdfView {
             }
         }
 
-        return preg_replace_callback('/\<a (.*?)>/', function ($hit) {
-
-            $completeATag = $hit[0];
-            $returnTag = preg_replace_callback('/href="(.*)#(.*)"/', function ($href) {
-
-                if (!empty($href[2]) &&
-                        ($href[1] === '/' . str_replace('&', '&amp;', GeneralUtility::getIndpEnv(TYPO3_SITE_SCRIPT)))
-                ) {
-                    return 'href="#' . $href[2] . '"';
-                }
-            }, $completeATag);
-
-            return $returnTag;
-
-        }, $content);
+        return $this->pdfLinkUtility->replace($content);
     }
 
     /**
