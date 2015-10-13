@@ -25,6 +25,7 @@
 
 namespace Mittwald\Web2pdf\Options;
 
+use Mittwald\Web2pdf\View\PdfView;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 
@@ -61,14 +62,14 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
                 isset($configuration['plugin.']['tx_web2pdf.']['view.']) &&
                 ($this->options = array_merge($configuration['plugin.']['tx_web2pdf.']['settings.'], $configuration['plugin.']['tx_web2pdf.']['view.']))
         ) {
-            if (is_array($this->options['pdfPregSearch']) && is_array($this->options['pdfPregReplace'])) {
-                $this->mergeReplaceConfiguration($this->options['pdfPregSearch'], $this->options['pdfPregReplace'], \Mittwald\Web2pdf\View\PdfView::PREG_REPLACEMENT_KEY);
-                unset($this->options['pdfPregSearch'], $this->options['pdfPregReplace']);
+            if (is_array($this->options['pdfPregSearch.']) && is_array($this->options['pdfPregReplace.'])) {
+                $this->mergeReplaceConfiguration($this->options['pdfPregSearch.'], $this->options['pdfPregReplace.'], PdfView::PREG_REPLACEMENT_KEY);
+                unset($this->options['pdfPregSearch.'], $this->options['pdfPregReplace.']);
             }
 
-            if (is_array($this->options['pdfStrSearch']) && is_array($this->options['pdfStrReplace'])) {
-                $this->mergeReplaceConfiguration($this->options['pdfStrSearch'], $this->options['pdfStrReplace'], \Mittwald\Web2pdf\View\PdfView::STR_REPLACEMENT_KEY);
-                unset($this->options['pdfStrSearch'], $this->options['pdfStrReplace']);
+            if (is_array($this->options['pdfStrSearch.']) && is_array($this->options['pdfStrReplace.'])) {
+                $this->mergeReplaceConfiguration($this->options['pdfStrSearch.'], $this->options['pdfStrReplace.'], PdfView::STR_REPLACEMENT_KEY);
+                unset($this->options['pdfStrSearch.'], $this->options['pdfStrReplace.']);
             }
         }
 
