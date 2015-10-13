@@ -54,6 +54,12 @@ class PdfView {
     protected $fileNameUtility;
 
     /**
+     * @var \Mittwald\Web2pdf\Utility\PdfLinkUtility
+     * @inject
+     */
+    protected $pdfLinkUtility;
+
+    /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
      */
     protected $objectManager;
@@ -127,7 +133,7 @@ class PdfView {
             }
         }
 
-        return $content;
+        return $this->pdfLinkUtility->replace($content);
     }
 
     /**
