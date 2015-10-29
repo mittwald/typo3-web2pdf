@@ -50,21 +50,21 @@ class PdfLinkUtility {
         $dom = new \DOMDocument();
         $dom->loadHTML($content);
 
-        foreach ($dom->getElementsByTagName('a') as $node) {
-            /* @var $node \DOMNode */
-            if ($node->hasAttribute('href')) {
-                $href = $node->getAttribute('href');
-                if ((($curPos = strpos($href, '#')) > 0) && (strpos($href, $currentSiteUri) !== false
-                        || strpos(htmlentities($href), $currentSiteUri) !== false
-                        || strpos($href, $currentHost . $currentSiteUri) !== false
-                        || strpos(htmlentities($href), $currentHost . $currentSiteUri) !== false)
+        if(($aTags = $dom->getElementsByTagName('a'))) {
+            foreach ($aTags as $node) {
+                /* @var $node \DOMNode */
+                if ($node->hasAttribute('href')) {
+                    $href = $node->getAttribute('href');
+                    if ((($curPos = strpos($href, '#')) > 0) && (strpos($href, $currentSiteUri) !== false
+                            || strpos(htmlentities($href), $currentSiteUri) !== false
+                            || strpos($href, $currentHost . $currentSiteUri) !== false
+                            || strpos(htmlentities($href), $currentHost . $currentSiteUri) !== false)
 
-                ) {
-                    $node->setAttribute('href', substr($href, $curPos, strlen($href)));
+                    ) {
+                        $node->setAttribute('href', substr($href, $curPos, strlen($href)));
+                    }
                 }
             }
-
-
         }
 
         return $dom->saveHTML();
