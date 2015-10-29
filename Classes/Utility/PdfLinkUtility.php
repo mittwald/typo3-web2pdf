@@ -47,19 +47,27 @@ class PdfLinkUtility {
         $tmpSiteUri = $this->getSiteUri();
         $currentSiteUri = (preg_match('/^\//', $tmpSiteUri)) ? $tmpSiteUri : '/' . $tmpSiteUri;
         $currentHost = $this->getHost();
-        $replacedContent = preg_replace_callback('/<a(.*)href="(.*)#(.*)"/', function ($hit) use ($currentSiteUri, $currentHost) {
-            if ((!empty($hit[3]) && preg_match('/[a-zA-Z]/', $hit[3]))
-                    && (strpos($hit[0], $currentSiteUri) !== false
-                            || strpos(htmlentities($hit[0]), $currentSiteUri) !== false
-                            || strpos($hit[0], $currentHost . $currentSiteUri) !== false
-                            || strpos(htmlentities($hit[0]), $currentHost . $currentSiteUri) !== false)
-            ) {
-                return '<a' . $hit[1] . 'href="#' . $hit[3] . '"';
-            }
-            return $hit[0];
-        }, $content);
+        $dom = new \DOMDocument();
+        $dom->loadHTML($content);
 
-        return $replacedContent;
+        if(($aTags = $dom->getElementsByTagName('a'))) {
+            foreach ($aTags as $node) {
+                /* @var $node \DOMNode */
+                if ($node->hasAttribute('href')) {
+                    $href = $node->getAttribute('href');
+                    if ((($curPos = strpos($href, '#')) > 0) && (strpos($href, $currentSiteUri) !== false
+                            || strpos(htmlentities($href), $currentSiteUri) !== false
+                            || strpos($href, $currentHost . $currentSiteUri) !== false
+                            || strpos(htmlentities($href), $currentHost . $currentSiteUri) !== false)
+
+                    ) {
+                        $node->setAttribute('href', substr($href, $curPos, strlen($href)));
+                    }
+                }
+            }
+        }
+
+        return $dom->saveHTML();
 
     }
 
@@ -69,7 +77,7 @@ class PdfLinkUtility {
      * @throws \UnexpectedValueException
      */
     protected function getSiteUri() {
-        return htmlentities(GeneralUtility::getIndpEnv("TYPO3_SITE_SCRIPT"));
+        return htmlentities(GeneralUtility::getIndpEnv("TYPO3_SITE_PATH"));
     }
 
     /**

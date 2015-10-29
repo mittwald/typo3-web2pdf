@@ -33,64 +33,60 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
  * Class PdfLinkUtilityTest
  * @package Mittwald\Tests\Utility
  */
-class PdfLinkUtilityTest extends UnitTestCase {
+class PdfLinkUtilityTest extends UnitTestCase
+{
 
     /**
      * @var PdfLinkUtility|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fixture;
 
-
     /**
-     *
+     * @dataProvider getHtmlPageProvider
      */
-    public function testKeepLinksIfNoSectionGiven() {
-        $this->fixture->expects($this->once())->method('getSiteUri')->willReturn($this->getSiteUri());
-        $return = $this->fixture->replace($this->getLink($this->getSiteUri()));
-        $this->assertEquals($this->getLink($this->getSiteUri()), $return);
+    public function testKeepLinksIfNoSectionGiven($html)
+    {
+        $this->fixture->expects($this->once())->method('getSiteUri')->willReturn('/nosectiongiven/');
+        $return = $this->fixture->replace($html);
+        $this->assertTrue((bool)preg_match('/\/nosectiongiven\//', $return));
     }
 
     /**
-     *
+     * @dataProvider getHtmlPageProvider
      */
-    public function testLocalAnchorsAreResolvedIfSiteUriContainsSpecialChars() {
-        $this->fixture->expects($this->once())->method('getSiteUri')->willReturn($this->getSiteUriWithSectionAndSpecialChars());
-        $return = $this->fixture->replace($this->getLink($this->getSiteUriWithSectionAndSpecialChars()));
-        $this->assertEquals('<a href="#section1">Link Test</a>', $return);
+    public function testLocalAnchorsAreResolvedIfSiteUriContainsHtmlEntities($html)
+    {
+        $this->fixture->expects($this->once())->method('getSiteUri')->willReturn('/sectionwithparams/');
+        $return = $this->fixture->replace($html);
+        $this->assertTrue((bool)preg_match('/"#section1"/', $return), $return);
     }
 
     /**
-     *
+     * @dataProvider getHtmlPageProvider
      */
-    public function testLocalAnchorsAreResolvedIfSiteUriContainsHtmlEntities() {
-        $this->fixture->expects($this->once())->method('getSiteUri')->willReturn(htmlentities($this->getSiteUriWithSectionAndSpecialChars()));
-        $return = $this->fixture->replace($this->getLink($this->getSiteUriWithSectionAndSpecialChars()));
-        $this->assertEquals('<a href="#section1">Link Test</a>', $return);
+    public function testLocalAnchorsAreResolved($html)
+    {
+        $this->fixture->expects($this->once())->method('getSiteUri')->willReturn('/sectiongiven/');
+        $return = $this->fixture->replace($html);
+        $this->assertTrue((bool)preg_match('/"#section1"/', $return), $return);
     }
 
     /**
-     *
+     * @dataProvider getHtmlPageProvider
      */
-    public function testLocalAnchorsAreResolved() {
+    public function testLocalAnchorsOfExternalPageKeptInContent($html)
+    {
         $this->fixture->expects($this->once())->method('getSiteUri')->willReturn($this->getSiteUriWithSection());
-        $return = $this->fixture->replace($this->getLink($this->getSiteUriWithSection()));
-        $this->assertEquals('<a href="#section1">Link Test</a>', $return);
-    }
-
-    /**
-     *
-     */
-    public function testLocalAnchorsOfExternalPageKeptInContent() {
-        $this->fixture->expects($this->once())->method('getSiteUri')->willReturn($this->getSiteUriWithSection());
-        $return = $this->fixture->replace($this->getLink('/external-page#section1', $this->getExternalHost()));
-        $this->assertEquals('<a href="http://www.external.de/external-page#section1">Link Test</a>', $return);
+        $return = $this->fixture->replace($html);
+        $this->assertTrue((bool)preg_match('/"http\:\/\/www\.external\.de\/external\-page#section1"/', $return), $return);
     }
 
     /**
      * @param string $siteUri
      * @return string
      */
-    protected function getLink($siteUri, $host = null) {
+    protected function getLink($siteUri, $host = null)
+    {
         if (is_null($host)) {
             $host = $this->getDefaultHost();
         }
@@ -100,49 +96,57 @@ class PdfLinkUtilityTest extends UnitTestCase {
     /**
      * @return string
      */
-    protected function getSiteUri() {
+    protected function getSiteUri()
+    {
         return '/index.php?id=124';
     }
 
     /**
      * @return string
      */
-    protected function getSiteUriWithSection() {
+    protected function getSiteUriWithSection()
+    {
         return '/index.php?id=123#section1';
     }
 
     /**
      * @return string
      */
-    protected function getSiteUriWithSectionAndSpecialChars() {
-        return '/index.php?id=123&my_ext_pi1[test]=1#section1';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getDefaultHost() {
+    protected function getDefaultHost()
+    {
         return 'http://www.google.de';
     }
 
     /**
      * @return string
      */
-    protected function getExternalHost() {
+    protected function getExternalHost()
+    {
         return 'http://www.external.de';
+    }
+
+    /**
+     * @return array
+     */
+    public function getHtmlPageProvider()
+    {
+        return array(
+            array(file_get_contents(__DIR__ . '/../Fixtures/HtmlPage.html'))
+        );
     }
 
 
     /**
      * Set up fixture
      */
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->fixture = $this->getAccessibleMock(
-                'Mittwald\Web2pdf\Utility\PdfLinkUtility',
-                array('getSiteUri', 'getHost'),
-                array(),
-                '',
-                false
+            'Mittwald\Web2pdf\Utility\PdfLinkUtility',
+            array('getSiteUri', 'getHost'),
+            array(),
+            '',
+            false
         );
         $this->fixture->expects($this->once())->method('getHost')->willReturn($this->getDefaultHost());
     }
