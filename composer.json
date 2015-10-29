@@ -19,12 +19,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Mittwald\\Web2Pdf\\": "Classes"
+      "Mittwald\\Web2pdf\\": "Classes"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Mittwald\\Web2Pdf\\Tests\\": "Tests",
+      "Mittwald\\Web2pdf\\Tests\\": "Tests",
       "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
       "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
     }
