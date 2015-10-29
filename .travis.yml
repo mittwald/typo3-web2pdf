@@ -1,0 +1,68 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+
+env:
+  - TYPO3_VERSION="7.5.0"
+  - TYPO3_VERSION="7.4.0"
+  - TYPO3_VERSION="^7.0"
+  - TYPO3_VERSION="~6.2.14"
+
+matrix:
+  exclude:
+    - php: 5.3
+      env: TYPO3_VERSION="7.5.0"
+    - php: 5.3
+      env: TYPO3_VERSION="7.4.0"
+    - php: 5.3
+      env: TYPO3_VERSION="^7.0"
+    - php: 5.4
+      env: TYPO3_VERSION="7.5.0"
+    - php: 5.4
+      env: TYPO3_VERSION="7.4.0"
+    - php: 5.4
+      env: TYPO3_VERSION="^7.0"
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - parallel
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - composer self-update
+  - composer --version
+
+before_script:
+  - if [[ "$TYPO3_VERSION" != "~6.2.14" ]]; then composer require typo3/cms="$TYPO3_VERSION"; else composer require typo3/cms="$TYPO3_VERSION" typo3/cms-composer-installers="1.2.2 as 1.1.4"; fi
+  # Restore composer.json
+  - git checkout composer.json
+  - export TYPO3_PATH_WEB=$PWD/.Build/Web
+
+script:
+  - >
+    echo;
+    echo "Running unit tests";
+    .Build/bin/phpunit -c .Build/vendor/typo3/cms/typo3/sysext/core/Build/UnitTests.xml Tests/Unit/
+
+  - >
+    echo;
+    echo "Running php lint";
+    find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
+
+  - >
+    echo;
+    export typo3DatabaseName="typo3";
+    export typo3DatabaseHost="localhost";
+    export typo3DatabaseUsername="root";
+    export typo3DatabasePassword="";
+    find 'Tests/Functional' -wholename '*Test.php' | parallel --gnu 'echo; echo "Running functional test suite {}"; .Build/bin/phpunit --colors  -c .Build/vendor/typo3/cms/typo3/sysext/core/Build/FunctionalTests.xml {}'

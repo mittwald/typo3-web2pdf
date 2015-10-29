@@ -1,16 +1,55 @@
 {
-	"name": "mittwald/web2pdf",
-	"description": "Web2PDF Extension",
-	"homepage": "http://www.mittwald.de",
-	"license": "GPL-2",
-	"version": "1.1-dev",
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"require": {
-		"php": ">=5.3.2"
-	},
-	"type": "typo3-cms-extension",
-	"require-dev": {
-		"mpdf/mpdf": "6.0"
-	}
+  "name": "mittwald/web2pdf",
+  "description": "Web2PDF Extension",
+  "homepage": "http://www.mittwald.de",
+  "license": "GPL-2",
+  "version": "1.1-dev",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "type": "typo3-cms-extension",
+  "require": {
+    "php": ">=5.3.2",
+    "typo3/cms-core": "~6.2.14|>=7.4.0,<8.0"
+  },
+  "require-dev": {
+    "namelesscoder/typo3-repository-client": "1.1.x-dev",
+    "mikey179/vfsStream": "1.4.*@dev",
+    "mpdf/mpdf": "6.0",
+    "phpunit/phpunit": "~4.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mittwald\\Web2Pdf\\": "Classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mittwald\\Web2Pdf\\Tests\\": "Tests",
+      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
+      "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
+    }
+  },
+  "replace": {
+    "web2pdf": "self.version",
+    "typo3-ter/web2pdf": "self.version"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "mkdir -p .Build/Web/typo3conf/ext/",
+      "[ -L .Build/Web/typo3conf/ext/web2pdf ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/web2pdf"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    },
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/Web"
+    }
+  }
 }
