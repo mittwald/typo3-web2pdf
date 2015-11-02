@@ -1,0 +1,7 @@
+# IDE
+.idea
+
+# Local files
+.Build
+UnitTests.xml
+composer.lock
