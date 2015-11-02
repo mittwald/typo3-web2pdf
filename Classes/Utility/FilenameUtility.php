@@ -33,23 +33,43 @@ namespace Mittwald\Web2pdf\Utility;
  * @package Mittwald
  * @subpackage Web2Pdf\Utility
  */
-class FilenameUtility {
-
+class FilenameUtility
+{
 
     /**
      * @param string $fileName
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function convert($fileName) {
+    public function convert($fileName)
+    {
 
         if (!is_string($fileName)) {
             throw new \InvalidArgumentException('String needed as argument');
         }
 
-        $fileName = preg_replace(array('/\s/', '/\.[\.]+/', '/[^\w_\.\-üäö]/'), array('_', '.', ''), $fileName);
-
-
-        return $fileName;
+        return preg_replace(array('/\s/', '/\.[\.]+/', '/[^a-zA-Z0-9-_]+/'), array('_', '_', ''), $this->replaceSpecialChars($fileName));
     }
+
+
+    /**
+     * @param $string
+     * @return string
+     */
+    protected function replaceSpecialChars($string)
+    {
+        $string = html_entity_decode($string, ENT_COMPAT, 'UTF-8');
+
+        $oldLocale = setlocale(LC_CTYPE, '0');
+
+        setlocale(LC_CTYPE, 'en_US.UTF-8');
+        $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+
+        setlocale(LC_CTYPE, $oldLocale);
+
+        return $string;
+
+    }
+
+
 }
