@@ -1,46 +1,47 @@
 plugin.tx_web2pdf {
-	view {
-		templateRootPath = {$plugin.tx_web2pdf.view.templateRootPath}
-		partialRootPath = {$plugin.tx_web2pdf.view.partialRootPath}
-		layoutRootPath = {$plugin.tx_web2pdf.view.layoutRootPath}
-	}
+    view {
+        templateRootPath = {$plugin.tx_web2pdf.view.templateRootPath}
+        partialRootPath = {$plugin.tx_web2pdf.view.partialRootPath}
+        layoutRootPath = {$plugin.tx_web2pdf.view.layoutRootPath}
+    }
 
-	settings {
-		pdfPageFormat = {$plugin.tx_web2pdf.settings.pdfPageFormat}
-		pdfPageOrientation = {$plugin.tx_web2pdf.settings.pdfPageOrientation}
-		pdfLeftMargin = {$plugin.tx_web2pdf.settings.pdfLeftMargin}
-		pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
-		pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
-		pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
-		useCustomHeader = {$plugin.tx_web2pdf.settings.useCustomHeader}
-		useCustomFooter = {$plugin.tx_web2pdf.settings.useCustomFooter}
+    settings {
+        pdfPageFormat = {$plugin.tx_web2pdf.settings.pdfPageFormat}
+        pdfPageOrientation = {$plugin.tx_web2pdf.settings.pdfPageOrientation}
+        pdfLeftMargin = {$plugin.tx_web2pdf.settings.pdfLeftMargin}
+        pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
+        pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
+        pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
+        pdfDestination = {$plugin.tx_web2pdf.settings.pdfDestination}
+        useCustomHeader = {$plugin.tx_web2pdf.settings.useCustomHeader}
+        useCustomFooter = {$plugin.tx_web2pdf.settings.useCustomFooter}
 
-		pdfPregSearch {
-			1 =
-		}
+        pdfPregSearch {
+            1 =
+        }
 
-		pdfPregReplace {
-			1 =
-		}
+        pdfPregReplace {
+            1 =
+        }
 
-		pdfStrSearch {
-			1 =
-		}
+        pdfStrSearch {
+            1 =
+        }
 
-		pdfStrReplace {
-			1 =
-		}
-	}
+        pdfStrReplace {
+            1 =
+        }
+    }
 }
 
 lib.web2pdf = USER
 lib.web2pdf {
-	userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-	pluginName = Pi1
-	extensionName = Web2pdf
-	vendorName = Mittwald
-	controller = Pdf
-	action = generatePdfLink
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    pluginName = Pi1
+    extensionName = Web2pdf
+    vendorName = Mittwald
+    controller = Pdf
+    action = generatePdfLink
 }
 
 # Need this line because TypoScript config is not loaded without this line

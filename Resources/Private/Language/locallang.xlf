@@ -58,6 +58,15 @@
             <trans-unit id="constants.pdf.styleSheet.screen">
                 <source>screen</source>
             </trans-unit>
+            <trans-unit id="constants.pdf.destination">
+                <source>How should PDF be displaxed? Download or InBrowser?</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.destination.attachment">
+                <source>Download</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.destination.inline">
+                <source>in Browser</source>
+            </trans-unit>
             <trans-unit id="constants.pdf.useCustomFooter">
                 <source>Use custom fluid footer</source>
             </trans-unit>
