@@ -22,7 +22,7 @@
       "Mittwald\\Web2pdf\\": "Classes"
     },
     "classmap": [
-      "typo3conf/ext/web2pdf/Vendor/mpdf/mpdf"
+      "Vendor/mpdf/mpdf"
     ]
   },
   "autoload-dev": {
