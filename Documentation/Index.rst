@@ -33,10 +33,10 @@ web2pdf
 		2015
 
 	:Author:
-		Kevin Purrmann
+		Mittwald CM Service GmbH & Co. KG
 
 	:Email:
-		entwicklung@purrmann-websolutions.de
+		opensource@mittwald.de
 
 	:License:
 		This document is published under the Open Content License
