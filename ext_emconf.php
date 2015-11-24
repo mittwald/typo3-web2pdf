@@ -3,7 +3,7 @@
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2014 Kevin Purrmann <entwicklung@purrmann-websolutions.de>
+ *  (c) 2015 Mittwald CM Service GmbH & Co. KG <opensoruce@mittwald.de>
  *
  *  All rights reserved
  *
@@ -37,9 +37,9 @@ $EM_CONF[$_EXTKEY] = array(
         'version' => '1.1-dev',
         'constraints' => array(
                 'depends' => array(
-                        'typo3' => '6.0.0-7.2.0',
-                        'extbase' => '6.0.0-7.2.0',
-                        'fluid' => '6.0.0-7.2.0',
+                        'typo3' => '6.0.0-7.9.99',
+                        'extbase' => '6.0.0-7.9.99',
+                        'fluid' => '6.0.0-7.9.99',
                 )
         )
 );
