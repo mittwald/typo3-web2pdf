@@ -3,7 +3,7 @@
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2015 Mittwald CM Service GmbH & Co. KG <opensoruce@mittwald.de>
+ *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *

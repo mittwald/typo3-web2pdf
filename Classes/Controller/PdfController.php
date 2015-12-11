@@ -3,7 +3,7 @@
 /* * *************************************************************
  *  Copyright notice
  *
- *  (c) 2014 Kevin Purrmann <entwicklung@purrmann-websolutions.de>
+ *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
