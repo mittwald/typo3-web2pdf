@@ -59,7 +59,7 @@
                 <source>screen</source>
             </trans-unit>
             <trans-unit id="constants.pdf.destination">
-                <source>How should PDF be displaxed? Download or InBrowser?</source>
+                <source>How should PDF be displayed? Download or InBrowser?</source>
             </trans-unit>
             <trans-unit id="constants.pdf.destination.attachment">
                 <source>Download</source>

@@ -99,8 +99,7 @@ class PdfView
             $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
         }
 
-        $destination = 'attachment';
-        $destination = $this->options->getPdfDestination();
+        $destination = ($pdfDestination = $this->options->getPdfDestination()) ? $pdfDestination : 'attachment';
 
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
