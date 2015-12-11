@@ -36,7 +36,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Mittwald
  * @subpackage Web2Pdf\View
  */
-class PdfView {
+class PdfView
+{
 
     const PREG_REPLACEMENT_KEY = 'pregReplacements';
 
@@ -67,7 +68,8 @@ class PdfView {
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
     }
@@ -79,7 +81,8 @@ class PdfView {
      * @param string $pageTitle
      * @return \TYPO3\CMS\Extbase\Mvc\Web\Response The rendered view
      */
-    public function renderHtmlOutput($content, $pageTitle) {
+    public function renderHtmlOutput($content, $pageTitle)
+    {
 
         $fileName = $this->fileNameUtility->convert($pageTitle) . '.pdf';
         $filePath = GeneralUtility::getFileAbsFileName('typo3temp/' . $fileName);
@@ -96,6 +99,8 @@ class PdfView {
             $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
         }
 
+        $destination = ($pdfDestination = $this->options->getPdfDestination()) ? $pdfDestination : 'attachment';
+
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
@@ -107,7 +112,7 @@ class PdfView {
         header('Expires: 0');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Content-Type: application/pdf', false);
-        header('Content-Disposition: attachment; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
+        header('Content-Disposition: ' . $destination . '; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
         readfile($filePath);
         unlink($filePath);
         exit;
@@ -119,7 +124,8 @@ class PdfView {
      * @param $content
      * @return string
      */
-    private function replaceStrings($content) {
+    private function replaceStrings($content)
+    {
 
         if (is_array($this->options->getStrReplacements())) {
             foreach ($this->options->getStrReplacements() as $searchString => $replacement) {
@@ -141,7 +147,8 @@ class PdfView {
      *
      * @return \mPDF
      */
-    protected function getPdfObject() {
+    protected function getPdfObject()
+    {
 
         // Get options from TypoScript
         $pageFormat = ($this->options->getPdfPageFormat()) ? $this->options->getPdfPageFormat() : 'A4';
@@ -168,7 +175,8 @@ class PdfView {
      * @param $templateName
      * @return string
      */
-    protected function getPartial($templateName, $arguments = array()) {
+    protected function getPartial($templateName, $arguments = array())
+    {
         /* @var $partial \TYPO3\CMS\Fluid\View\StandaloneView */
         $partial = $this->objectManager->get('TYPO3\CMS\Fluid\View\StandaloneView');
         $partial->setLayoutRootPath(GeneralUtility::getFileAbsFileName($this->options->getLayoutRootPath()));
