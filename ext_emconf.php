@@ -25,21 +25,29 @@
  * ************************************************************* */
 
 $EM_CONF[$_EXTKEY] = array(
-        'title' => 'Web2PDF',
-        'description' => 'This Extension renders the pagecontent to a PDF file. It supports css and uses the library mPDF. This extension is based on the pdf_generator2.',
-        'category' => 'plugin',
-        'author' => 'Mittwald CM Service',
-        'author_company' => 'Mittwald CM Service',
-        'author_email' => 'opensource@mittwald.de',
-        'dependencies' => 'extbase,fluid',
-        'state' => 'stable',
-        'clearCacheOnLoad' => '1',
-        'version' => '1.1-dev',
-        'constraints' => array(
-                'depends' => array(
-                        'typo3' => '6.0.0-7.6.99',
-                        'extbase' => '6.0.0-7.6.99',
-                        'fluid' => '6.0.0-7.6.99',
-                )
+    'title' => 'Web2PDF',
+    'description' => 'This Extension renders the pagecontent to a PDF file. It supports css and uses the library mPDF. This extension is based on the pdf_generator2.',
+    'category' => 'plugin',
+    'author' => 'Mittwald CM Service',
+    'author_company' => 'Mittwald CM Service',
+    'author_email' => 'opensource@mittwald.de',
+    'dependencies' => 'extbase,fluid',
+    'state' => 'stable',
+    'clearCacheOnLoad' => '1',
+    'version' => '1.1-dev',
+    'constraints' => array(
+        'depends' => array(
+            'typo3' => '6.0.0-7.6.99',
+            'extbase' => '6.0.0-7.6.99',
+            'fluid' => '6.0.0-7.6.99',
         )
+    ),
+    'autoload' => array(
+        'psr-4' => array(
+            'Mittwald\\Web2pdf\\' => 'Classes'
+        ),
+        'classmap' => array(
+            'Vendor/mpdf/mpdf'
+        )
+    ),
 );
