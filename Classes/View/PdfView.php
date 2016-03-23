@@ -159,7 +159,21 @@ class PdfView
         $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
 
         /* @var $pdf \mPDF */
-        $pdf = $this->objectManager->get('mPDF', '', $pageFormat . '-' . $pageOrientation);
+        $pdf = $this->objectManager->get(
+            'mPDF',
+            '',
+            $pageFormat,
+            12,
+            '',
+            $leftMargin,
+            $rightMargin,
+            $topMargin,
+            15,
+            9,
+            9,
+            $pageOrientation
+        );
+
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
 
         if ($styleSheet == 'print' || $styleSheet == 'screen') {
