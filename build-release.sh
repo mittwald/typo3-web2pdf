@@ -14,8 +14,9 @@ git fetch
 git reset --hard origin/master
 
 git checkout -b "release/v${VERSION}"
-sed -i -e "s,[0-9]\.[0-9]-dev,${VERSION},g" composer.json ext_emconf.php
-git add composer.json ext_emconf.php
+git rm composer.json composer.lock
+sed -i -e "s,[0-9]\.[0-9]-dev,${VERSION},g" ext_emconf.php
+git add ext_emconf.php
 git rm build-release.sh
 git commit -m"Release version ${VERSION}"
 git tag -s -m"Release version ${VERSION}" v${VERSION}
