@@ -66,6 +66,12 @@ class PdfView
     protected $objectManager;
 
     /**
+     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+     * @inject
+     */
+    protected $signalSlotDispatcher;
+
+    /**
      * @throws \InvalidArgumentException
      */
     public function __construct()
@@ -104,17 +110,33 @@ class PdfView
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
+        $fileName = $this->fileNameUtility->convert($pageTitle);
+        $continueOutput = true;
 
-        header('Content-Description: File Transfer');
-        header('Content-Transfer-Encoding: binary');
-        header('Cache-Control: public, must-revalidate, max-age=0');
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Type: application/pdf', false);
-        header('Content-Disposition: ' . $destination . '; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
-        readfile($filePath);
-        unlink($filePath);
+        $this->dispatch(
+            'afterPdfGeneration',
+            [
+                &$destination,
+                &$fileName,
+                &$filePath,
+                &$continueOutput,
+                $this
+            ]
+        );
+
+        if ($continueOutput === true) {
+            header('Content-Description: File Transfer');
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: public, must-revalidate, max-age=0');
+            header('Pragma: public');
+            header('Expires: 0');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+            header('Content-Type: application/pdf', false);
+            header('Content-Disposition: ' . $destination . '; filename="' . $fileName . '.pdf' . '"');
+            readfile($filePath);
+            unlink($filePath);
+        }
+
         exit;
     }
 
@@ -140,6 +162,28 @@ class PdfView
         }
 
         return $this->pdfLinkUtility->replace($content);
+    }
+
+    /**
+     * Call hook and change arguments value if returned
+     *
+     * @param $signalName
+     * @param $arguments
+     * @return void
+     */
+    private function dispatch($signalName, $arguments)
+    {
+        $slotReturn = $this->signalSlotDispatcher->dispatch(
+            __CLASS__,
+            $signalName,
+            $arguments
+        );
+
+        if ($slotReturn) {
+            foreach ($slotReturn as $key => $itemReturn) {
+                $arguments[$key] = $itemReturn;
+            }
+        }
     }
 
     /**
