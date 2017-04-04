@@ -16,6 +16,10 @@ plugin.tx_web2pdf {
         useCustomHeader = {$plugin.tx_web2pdf.settings.useCustomHeader}
         useCustomFooter = {$plugin.tx_web2pdf.settings.useCustomFooter}
 
+        includeFonts {
+
+        }
+
         pdfPregSearch {
             1 =
         }

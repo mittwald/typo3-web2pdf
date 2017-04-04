@@ -26,6 +26,7 @@
 namespace Mittwald\Web2pdf\Options;
 
 use Mittwald\Web2pdf\View\PdfView;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 
@@ -70,6 +71,11 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
             if (is_array($this->options['pdfStrSearch.']) && is_array($this->options['pdfStrReplace.'])) {
                 $this->mergeReplaceConfiguration($this->options['pdfStrSearch.'], $this->options['pdfStrReplace.'], PdfView::STR_REPLACEMENT_KEY);
                 unset($this->options['pdfStrSearch.'], $this->options['pdfStrReplace.']);
+            }
+
+            if (is_array($this->options['includeFonts.'])) {
+                $this->options['includeFonts'] = GeneralUtility::removeDotsFromTS($this->options['includeFonts.']);
+                unset($this->options['includeFonts.']);
             }
         }
 
