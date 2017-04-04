@@ -66,6 +66,12 @@ class PdfView
     protected $objectManager;
 
     /**
+     * @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher
+     * @inject
+     */
+    protected $signalSlotDispatcher;
+
+    /**
      * @throws \InvalidArgumentException
      */
     public function __construct()
@@ -104,17 +110,33 @@ class PdfView
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
+        $fileName = $this->fileNameUtility->convert($pageTitle);
+        $continueOutput = true;
 
-        header('Content-Description: File Transfer');
-        header('Content-Transfer-Encoding: binary');
-        header('Cache-Control: public, must-revalidate, max-age=0');
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Type: application/pdf', false);
-        header('Content-Disposition: ' . $destination . '; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
-        readfile($filePath);
-        unlink($filePath);
+        $this->dispatch(
+            'afterPdfGeneration',
+            [
+                &$destination,
+                &$fileName,
+                &$filePath,
+                &$continueOutput,
+                $this
+            ]
+        );
+
+        if ($continueOutput === true) {
+            header('Content-Description: File Transfer');
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: public, must-revalidate, max-age=0');
+            header('Pragma: public');
+            header('Expires: 0');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+            header('Content-Type: application/pdf', false);
+            header('Content-Disposition: ' . $destination . '; filename="' . $fileName . '.pdf' . '"');
+            readfile($filePath);
+            unlink($filePath);
+        }
+
         exit;
     }
 
@@ -143,6 +165,59 @@ class PdfView
     }
 
     /**
+     * Call hook and change arguments value if returned
+     *
+     * @param $signalName
+     * @param $arguments
+     * @return void
+     */
+    private function dispatch($signalName, $arguments)
+    {
+        $slotReturn = $this->signalSlotDispatcher->dispatch(
+            __CLASS__,
+            $signalName,
+            $arguments
+        );
+
+        if ($slotReturn) {
+            foreach ($slotReturn as $key => $itemReturn) {
+                $arguments[$key] = $itemReturn;
+            }
+        }
+    }
+
+    /**
+     * Add fonts
+     *
+     * @param \mPDF $pdf
+     * @param array $fonts
+     * @return void
+     */
+    private function includeFonts(\mPDF $pdf, $fonts)
+    {
+        foreach ($fonts as $f => $fs) {
+            // add to fontdata array
+            $pdf->fontdata[$f] = $fs;
+
+            // add to available fonts array
+            if (isset($fs['R']) && $fs['R']) {
+                $pdf->available_unifonts[] = $f;
+            }
+            if (isset($fs['B']) && $fs['B']) {
+                $pdf->available_unifonts[] = $f.'B';
+            }
+            if (isset($fs['I']) && $fs['I']) {
+                $pdf->available_unifonts[] = $f.'I';
+            }
+            if (isset($fs['BI']) && $fs['BI']) {
+                $pdf->available_unifonts[] = $f.'BI';
+            }
+        }
+
+        $pdf->default_available_fonts = $pdf->available_unifonts;
+    }
+
+    /**
      * Returns configured mPDF object
      *
      * @return \mPDF
@@ -157,6 +232,7 @@ class PdfView
         $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
         $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
+        $includeFonts = ($this->options->getIncludeFonts()) ? $this->options->getIncludeFonts() : null;
 
         /* @var $pdf \mPDF */
         $pdf = $this->objectManager->get(
@@ -175,6 +251,10 @@ class PdfView
         );
 
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
+
+        if (is_array($includeFonts) && !empty($includeFonts)) {
+            $this->includeFonts($pdf, $includeFonts);
+        }
 
         if ($styleSheet == 'print' || $styleSheet == 'screen') {
             $pdf->CSSselectMedia = $styleSheet;
