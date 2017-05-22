@@ -70,6 +70,7 @@ Can be set via TypoScript using following options:
 		}
 
 	}
+
 Example: Replace `Hello` with `Good Night`
 ::
 
@@ -83,3 +84,23 @@ Example: Replace `Hello` with `Good Night`
 			1 = Good Night
 		}
 	}
+
+
+Problems with `indexed_search`
+------------------------------
+By default web2pdf links/views are indexed by `indexed_search`. To avoid this behaviour you have to configure a new page type for web2pdf views.
+::
+
+	web2pdfPage < yourDefaultPage
+	web2pdfPage.typeNum = 9765123
+	[globalVar = GP:type = 9765123]
+		config.index_enable = 0
+	[global]
+
+Additionally you have to edit the link template in `EXT:web2pdf/Resources/Private/Templates/Pdf/GeneratePdfLink.html`
+::
+
+	<f:link.action action="" arguments="{argument:settings.pdfQueryParameter}" pageType="9765123" addQueryString="1">
+		<f:translate key="web2pdf.printLabel" />
+	</f:link.action>
+
