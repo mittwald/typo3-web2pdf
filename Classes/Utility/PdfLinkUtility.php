@@ -48,7 +48,6 @@ class PdfLinkUtility {
         $currentSiteUri = (preg_match('/^\//', $tmpSiteUri)) ? $tmpSiteUri : '/' . $tmpSiteUri;
         $currentHost = $this->getHost();
         $regex = '/<a(.*?)href="([^#"]*?)#([a-zA-Z0-9]+)"/';
-        
         $replacedContent = preg_replace_callback($regex, function ($hit) use ($currentSiteUri, $currentHost) {
             if (strpos($hit[0], $currentSiteUri) !== false
                 || strpos(htmlentities($hit[0]), $currentSiteUri) !== false
