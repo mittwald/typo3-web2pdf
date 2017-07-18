@@ -1,27 +1,20 @@
 language: php
 
-php:
-  - 5.5
-  - 5.6
-  - 7.0
-  - 7.1
-
-env:
-  - TYPO3_VERSION="7.6.0"
-  - TYPO3_VERSION="^7.0"
-  - TYPO3_VERSION="8.7.0"
-  - TYPO3_VERSION="8.7.1"
-
 matrix:
-  exclude:
+  fast_finish: true
+  include:
     - php: 5.5
-      env: TYPO3_VERSION="8.7.0"
-    - php: 5.5
-      env: TYPO3_VERSION="8.7.1"
+      env: TYPO3_VERSION=^7.6
     - php: 5.6
-      env: TYPO3_VERSION="8.7.0"
-    - php: 5.6
-      env: TYPO3_VERSION="8.7.1"
+      env: TYPO3_VERSION=^7.6
+    - php: 7.0
+      env: TYPO3_VERSION=^7.6
+    - php: 7.1
+      env: TYPO3_VERSION=^7.6
+    - php: 7.1
+      env: TYPO3_VERSION=^8
+    - php: 7.0
+      env: TYPO3_VERSION=^8
 
 sudo: false
 
@@ -40,7 +33,6 @@ before_install:
 
 before_script:
   - composer require typo3/cms="$TYPO3_VERSION"
-  - if [[ "$TYPO3_VERSION" == "8.7.0" || "$TYPO3_VERSION" == "8.7.1" ]]; then composer require typo3/testing-framework; fi
   # Restore composer.json
   - git checkout composer.json
   - export TYPO3_PATH_WEB=$PWD/.Build/Web
@@ -49,7 +41,7 @@ script:
   - >
     echo;
     echo "Running unit tests";
-    if [[ "$TYPO3_VERSION" == "8.7.0" || "$TYPO3_VERSION" == "8.7.1" ]]; then .Build/bin/phpunit -c .Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTests.xml Tests/Unit/; else .Build/bin/phpunit -c .Build/vendor/typo3/cms/typo3/sysext/core/Build/UnitTests.xml Tests/Unit/; fi
+    .Build/bin/phpunit --colors -c .Build/vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/
 
   - >
     echo;
