@@ -54,7 +54,7 @@ script:
   - >
     echo;
     echo "Running php lint";
-    find . -name \*.php ! -path "./.Build/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
+    find . -name \*.php ! -path "./Classes/*" | parallel --gnu php -d display_errors=stderr -l {} > /dev/null \;
 
   - >
     echo;
