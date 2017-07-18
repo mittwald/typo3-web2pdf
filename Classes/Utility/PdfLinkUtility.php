@@ -47,13 +47,12 @@ class PdfLinkUtility {
         $tmpSiteUri = $this->getSiteUri();
         $currentSiteUri = (preg_match('/^\//', $tmpSiteUri)) ? $tmpSiteUri : '/' . $tmpSiteUri;
         $currentHost = $this->getHost();
-        $regex = '/<a(.*?)href\s*=\s*[\'\"](.*?)#(.*?)[\'\"]/';
+        $regex = '/<a(.*?)href="([^#"]*?)#([a-zA-Z0-9]+)"/';
         $replacedContent = preg_replace_callback($regex, function ($hit) use ($currentSiteUri, $currentHost) {
-            if ((!empty($hit[3]) && preg_match('/[a-zA-Z]/', $hit[3]))
-                    && (strpos($hit[0], $currentSiteUri) !== false
-                            || strpos(htmlentities($hit[0]), $currentSiteUri) !== false
-                            || strpos($hit[0], $currentHost . $currentSiteUri) !== false
-                            || strpos(htmlentities($hit[0]), $currentHost . $currentSiteUri) !== false)
+            if (strpos($hit[0], $currentSiteUri) !== false
+                || strpos(htmlentities($hit[0]), $currentSiteUri) !== false
+                || strpos($hit[0], $currentHost . $currentSiteUri) !== false
+                || strpos(htmlentities($hit[0]), $currentHost . $currentSiteUri) !== false
             ) {
                 return '<a' . $hit[1] . 'href="#' . $hit[3] . '"';
             }
