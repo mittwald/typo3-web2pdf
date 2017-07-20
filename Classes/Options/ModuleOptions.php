@@ -115,9 +115,11 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
      * @return mixed
      */
     protected function getConfigValue($index) {
-        if (is_array($this->options) && array_key_exists($index, $this->options)) {
+        if (is_array($this->options) &&
+            (array_key_exists($index, $this->options) || (($index = $index . '.') && array_key_exists($index, $this->options)))
+        ) {
             return $this->options[$index];
         }
-        return NULL;
+        return null;
     }
 }
