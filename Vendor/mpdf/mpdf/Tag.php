@@ -1780,10 +1780,12 @@ class Tag
 				} // *CSS-FLOAT*
 
 				$container_w = $prevblk['inner_width'];
-				$bdr = $currblk['border_right']['w'];
-				$bdl = $currblk['border_left']['w'];
-				$pdr = $currblk['padding_right'];
-				$pdl = $currblk['padding_left'];
+				
+				/* Changed due to issue for "non numeric value"-Exception in Typo3-Backend * Sam 02.02.2018 */
+				$bdr = is_numeric($currblk['border_right']['w'])?$currblk['border_right']['w']:0;
+				$bdl = is_numeric($currblk['border_left']['w'])?$currblk['border_left']['w']:0;
+				$pdr = is_numeric($currblk['padding_right'])?$currblk['padding_right']:0;
+				$pdl = is_numeric($currblk['padding_left'])?$currblk['padding_left']:0;
 
 				if (isset($currblk['css_set_width'])) {
 					$setwidth = $currblk['css_set_width'];
@@ -1886,6 +1888,14 @@ class Tag
 					// Don't allow overlap - if floats present - adjust padding to avoid overlap with Floats
 					list($l_exists, $r_exists, $l_max, $r_max, $l_width, $r_width) = $this->mpdf->GetFloatDivInfo($this->mpdf->blklvl - 1);
 					$maxw = $container_w - $l_width - $r_width;
+
+					/* added by Sam 02.02.2018 
+					if (!is_numeric($currblk['margin_left'])) $currblk['margin_left']=0;
+					if (!is_numeric($currblk['margin_right'])) $currblk['margin_right']=0;
+					if (!is_numeric($currblk['padding_left'])) $currblk['padding_left']=0;
+					if (!is_numeric($currblk['padding_right'])) $currblk['padding_right']=0;
+					*/
+			
 					if (($setwidth + $currblk['margin_left'] + $currblk['margin_right'] + $bdl + $pdl + $bdr + $pdr) > $maxw || ($maxw - ($currblk['margin_right'] + $currblk['margin_left'] + $bdl + $pdl + $bdr + $pdr)) < (2 * $this->mpdf->GetCharWidth('W', false))) {
 						// Too narrow to fit - try to move down past L or R float
 						if ($l_max < $r_max && ($setwidth + $currblk['margin_left'] + $currblk['margin_right'] + $bdl + $pdl + $bdr + $pdr) <= ($container_w - $r_width) && (($container_w - $r_width) - ($currblk['margin_right'] + $currblk['margin_left'] + $bdl + $pdl + $bdr + $pdr)) > (2 * $this->mpdf->GetCharWidth('W', false))) {
@@ -1998,6 +2008,12 @@ class Tag
 						} // *OTL*
 					}
 				}
+				
+				/* added by Sam 02.02.2018 */
+				if (!is_numeric($currblk['margin_left'])) $currblk['margin_left']=0;
+				if (!is_numeric($currblk['margin_right'])) $currblk['margin_right']=0;
+				if (!is_numeric($currblk['padding_left'])) $currblk['padding_left']=0;
+				if (!is_numeric($currblk['padding_right'])) $currblk['padding_right']=0;
 
 				$currblk['outer_left_margin'] = $prevblk['outer_left_margin'] + $currblk['margin_left'] + $prevblk['border_left']['w'] + $prevblk['padding_left'];
 				$currblk['outer_right_margin'] = $prevblk['outer_right_margin'] + $currblk['margin_right'] + $prevblk['border_right']['w'] + $prevblk['padding_right'];
