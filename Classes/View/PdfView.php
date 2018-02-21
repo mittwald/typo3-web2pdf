@@ -112,7 +112,7 @@ class PdfView
         header('Pragma: public');
         header('Expires: 0');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Type: application/pdf', false);
+        header('Content-Type: application/pdf');
         header('Content-Disposition: ' . $destination . '; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
         readfile($filePath);
         unlink($filePath);
