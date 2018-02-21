@@ -27,6 +27,7 @@ namespace Mittwald\Web2pdf\View;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 
 /**
@@ -192,11 +193,12 @@ class PdfView
     protected function getPartial($templateName, $arguments = array())
     {
         /* @var $partial \TYPO3\CMS\Fluid\View\StandaloneView */
-        $partial = $this->objectManager->get('TYPO3\CMS\Fluid\View\StandaloneView');
-        $partial->setLayoutRootPath(GeneralUtility::getFileAbsFileName($this->options->getLayoutRootPath()));
-        $partial->setPartialRootPath(GeneralUtility::getFileAbsFileName($this->options->getPartialRootPath()));
-        $partial->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($this->options->getPartialRootPath()) . 'Pdf/' . ucfirst($templateName) . '.html');
+        $partial = $this->objectManager->get(StandaloneView::class);
+        $partial->setLayoutRootPaths($this->options->getLayoutRootPaths());
+        $partial->setPartialRootPaths($this->options->getPartialRootPaths());
+        $partial->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(end($partial->getPartialRootPaths())) . 'Pdf/' . ucfirst($templateName) . '.html');
         $partial->assign('data', $arguments);
+
         return $partial->render();
     }
 

@@ -1,8 +1,8 @@
 plugin.tx_web2pdf {
     view {
-        templateRootPath = {$plugin.tx_web2pdf.view.templateRootPath}
-        partialRootPath = {$plugin.tx_web2pdf.view.partialRootPath}
-        layoutRootPath = {$plugin.tx_web2pdf.view.layoutRootPath}
+        templateRootPaths.0 = {$plugin.tx_web2pdf.view.templateRootPath}
+        partialRootPaths.0 = {$plugin.tx_web2pdf.view.partialRootPath}
+        layoutRootPaths.0 = {$plugin.tx_web2pdf.view.layoutRootPath}
     }
 
     settings {
