@@ -156,6 +156,7 @@ class PdfView
         $pageOrientation = ($orientation = $this->options->getPdfPageOrientation()) ? $orientation : 'L';
         $leftMargin = ($this->options->getPdfLeftMargin()) ? $this->options->getPdfLeftMargin() : '15';
         $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
+        $bottomMargin = ($this->options->getPdfBottomMargin()) ? $this->options->getPdfBottomMargin() : '15';
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
         $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
 
@@ -169,7 +170,7 @@ class PdfView
             $leftMargin,
             $rightMargin,
             $topMargin,
-            15,
+            $bottomMargin,
             9,
             9,
             $pageOrientation
