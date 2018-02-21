@@ -40,6 +40,7 @@ $EM_CONF[$_EXTKEY] = array(
             'typo3' => '7.6.0-8.7.99',
             'extbase' => '7.6.0-8.7.99',
             'fluid' => '7.6.0-8.7.99',
+            'php' => '5.4.0-7.0.99'
         )
     ),
     'autoload' => array(
