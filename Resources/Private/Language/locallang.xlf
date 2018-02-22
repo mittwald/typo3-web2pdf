@@ -28,6 +28,9 @@
             <trans-unit id="constants.pdf.topMargin">
                 <source>Top margin</source>
             </trans-unit>
+            <trans-unit id="constants.pdf.bottomMargin">
+                <source>Bottom margin</source>
+            </trans-unit>
             <trans-unit id="constants.pdf.rightMargin">
                 <source>Right margin</source>
             </trans-unit>

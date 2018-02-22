@@ -11,6 +11,7 @@ plugin.tx_web2pdf {
         pdfLeftMargin = {$plugin.tx_web2pdf.settings.pdfLeftMargin}
         pdfRightMargin = {$plugin.tx_web2pdf.settings.pdfRightMargin}
         pdfTopMargin = {$plugin.tx_web2pdf.settings.pdfTopMargin}
+        pdfBottomMargin = {$plugin.tx_web2pdf.settings.pdfBottomMargin}
         pdfStyleSheet = {$plugin.tx_web2pdf.settings.pdfStyleSheet}
         pdfDestination = {$plugin.tx_web2pdf.settings.pdfDestination}
         useCustomHeader = {$plugin.tx_web2pdf.settings.useCustomHeader}
