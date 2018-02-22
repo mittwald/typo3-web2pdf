@@ -3,5 +3,6 @@
 
 # Local files
 .Build
-UnitTests.xml
+Libraries/*
+data
 composer.lock
