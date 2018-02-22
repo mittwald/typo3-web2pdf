@@ -40,15 +40,12 @@ $EM_CONF[$_EXTKEY] = array(
             'typo3' => '7.6.0-8.7.99',
             'extbase' => '7.6.0-8.7.99',
             'fluid' => '7.6.0-8.7.99',
-            'php' => '5.4.0-7.0.99'
-        )
+            'php' => '5.6.0-7.2.99',
+        ),
     ),
     'autoload' => array(
         'psr-4' => array(
-            'Mittwald\\Web2pdf\\' => 'Classes'
+            'Mittwald\\Web2pdf\\' => 'Classes',
         ),
-        'classmap' => array(
-            'Vendor/mpdf/mpdf'
-        )
     ),
 );
