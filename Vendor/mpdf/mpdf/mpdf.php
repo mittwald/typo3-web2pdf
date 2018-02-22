@@ -6383,6 +6383,12 @@ class mPDF
 			/* -- END TABLES -- */
 			$ipaddingL = $this->blk[$this->blklvl]['padding_left'];
 			$ipaddingR = $this->blk[$this->blklvl]['padding_right'];
+			
+			/* Changed accorrding "non numeric value issue" in Typo3-Backend (Log); Sam 02.02.2018 */
+			if (!is_numeric($ipaddingL)) $ipaddingL = 0;
+			if (!is_numeric($ipaddingR)) $ipaddingR = 0;
+			
+			
 			$paddingL = ($ipaddingL * _MPDFK);
 			$paddingR = ($ipaddingR * _MPDFK);
 			$this->cMarginL = $this->blk[$this->blklvl]['border_left']['w'];
@@ -30645,7 +30651,7 @@ class mPDF
 				$size *= $maxsize * 2;
 			}
 		} else
-			$size *= (25.4 / $this->dpi); //nothing == px
+			$size = (is_numeric($size)?$size:0) * (25.4 / (is_numeric($this->dpi)?$this->dpi:300)); //nothing == px | changed for exeception issue "non numeric value" in Typo3-Backend-Log * Sam 02.02.2018 
 
 		return $size;
 	}
