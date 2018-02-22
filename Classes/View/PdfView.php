@@ -25,6 +25,7 @@
 
 namespace Mittwald\Web2pdf\View;
 
+use Mpdf\Mpdf;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -146,7 +147,7 @@ class PdfView
     /**
      * Returns configured mPDF object
      *
-     * @return \mPDF
+     * @return Mpdf
      */
     protected function getPdfObject()
     {
@@ -160,20 +161,19 @@ class PdfView
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
         $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
 
-        /* @var $pdf \mPDF */
+        /* @var $pdf Mpdf */
         $pdf = $this->objectManager->get(
-            'mPDF',
-            '',
-            $pageFormat,
-            12,
-            '',
-            $leftMargin,
-            $rightMargin,
-            $topMargin,
-            $bottomMargin,
-            9,
-            9,
-            $pageOrientation
+            Mpdf::class, [
+                'format' => $pageFormat,
+                'default_font_size' => 12,
+                'margin_left' => $leftMargin,
+                'margin_right' => $rightMargin,
+                'margin_top' => $topMargin,
+                'margin_bottom' => $bottomMargin,
+                'orientation' => $pageOrientation,
+                'tempDir' => PATH_SITE . 'typo3temp',
+                'fontDir' => ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Public/Fonts',
+            ]
         );
 
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
