@@ -8,8 +8,9 @@
   "prefer-stable": true,
   "type": "typo3-cms-extension",
   "require": {
-    "typo3/cms-core": "^7.6.13 || >=8.5.0 <9",
-    "mpdf/mpdf": "^6.1"
+    "typo3/cms-core": "^7.6 || ^8.7",
+    "mpdf/mpdf": "^7.0",
+    "php": ">=5.6"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.8.0",
@@ -18,10 +19,7 @@
   "autoload": {
     "psr-4": {
       "Mittwald\\Web2pdf\\": "Classes"
-    },
-    "classmap": [
-      "Vendor/mpdf/mpdf"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
@@ -39,6 +37,24 @@
     "bin-dir": ".Build/bin"
   },
   "scripts": {
+    "extension-create-libs": [
+      "mkdir -p Libraries/temp",
+      "[ -f $HOME/.composer/vendor/bin/phar-composer ] || composer global require clue/phar-composer",
+      "if [ ! -f Libraries/mpdf.phar ]; then cd Libraries/temp && composer require mpdf/mpdf=^7.0 && composer config classmap-authoritative true && composer config prepend-autoloader true && composer dump-autoload -o; fi",
+      "rm -rf Libraries/temp/vendor/mpdf/mpdf/ttfonts/",
+      "[ -f Libraries/mpdf.phar ] || $HOME/.composer/vendor/bin/phar-composer build Libraries/temp/ Libraries/mpdf.phar",
+      "chmod -x Libraries/*.phar",
+      "rm -rf Libraries/temp"
+    ],
+    "extension-build": [
+      "@extension-create-libs"
+    ],
+    "extension-release": [
+      "@extension-build",
+      "rm -rf Tests/",
+      "rm .gitignore",
+      "rm .travis.yml"
+    ],
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/web2pdf ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/web2pdf"
