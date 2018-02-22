@@ -57,7 +57,7 @@ script:
 before_deploy:
   - composer extension-release
   - sed -i -e "s,[0-9]\.[0-9]-dev,${TRAVIS_TAG#v},g" ext_emconf.php
-  - zip -9 -r web2pdf_${TRAVIS_TAG#v}.zip .
+  - zip -9 -r --exclude=.git/* --exclude=.Build/* web2pdf_${TRAVIS_TAG#v}.zip .
 
 deploy:
   provider: releases
