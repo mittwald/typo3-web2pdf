@@ -184,6 +184,10 @@ class PdfView
             unset($pdf->CSSselectMedia);
         }
 
+        if($this->options->getPdfAdditionalStyleSheet()) {
+            $pdf->WriteHTML(GeneralUtility::getUrl(GeneralUtility::getFileAbsFileName($this->options->getPdfAdditionalStyleSheet())), 1);
+        }
+        
         return $pdf;
     }
 
