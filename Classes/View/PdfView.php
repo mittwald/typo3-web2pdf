@@ -159,6 +159,8 @@ class PdfView
         $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
         $bottomMargin = ($this->options->getPdfBottomMargin()) ? $this->options->getPdfBottomMargin() : '15';
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
+        $headerMargin = ($this->options->getPdfHeaderMargin()) ? $this->options->getPdfHeaderMargin() : '9';
+        $footerMargin = ($this->options->getPdfFooterMargin()) ? $this->options->getPdfFooterMargin() : '9';
         $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
 
         /* @var $pdf Mpdf */
@@ -170,6 +172,8 @@ class PdfView
                 'margin_right' => $rightMargin,
                 'margin_top' => $topMargin,
                 'margin_bottom' => $bottomMargin,
+                'margin_header' => $headerMargin,
+                'margin_footer' => $footerMargin,
                 'orientation' => $pageOrientation,
                 'tempDir' => PATH_site . 'typo3temp',
                 'fontDir' => ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Public/Fonts',

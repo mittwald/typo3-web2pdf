@@ -32,6 +32,10 @@ plugin.tx_web2pdf {
 		useCustomFooter = 0
 		# cat=plugin.tx_web2pdf/pdf/10; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.useCustomHeader
 		useCustomHeader = 0
+		# cat=plugin.tx_web2pdf/pdf/11; type=int+; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.headerMargin
+		pdfHeaderMargin = 9
+		# cat=plugin.tx_web2pdf/pdf/12; type=int+; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.footerMargin
+		pdfFooterMargin = 9
 
 	}
 }
