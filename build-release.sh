@@ -14,7 +14,6 @@ git fetch
 git reset --hard origin/master
 
 git checkout -b "release/v${VERSION}"
-git rm composer.json
 [ -f "composer.lock" ] && {
     git rm composer.lock
 }
