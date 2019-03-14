@@ -26,8 +26,7 @@
 namespace Mittwald\Tests\Utility;
 
 use Mittwald\Web2pdf\Utility\FilenameUtility;
-use TYPO3\CMS\Core\Charset\CharsetConverter;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 
 /**

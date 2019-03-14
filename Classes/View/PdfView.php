@@ -180,8 +180,6 @@ class PdfView
 
         if ($styleSheet == 'print' || $styleSheet == 'screen') {
             $pdf->CSSselectMedia = $styleSheet;
-        } else {
-            unset($pdf->CSSselectMedia);
         }
 
         return $pdf;

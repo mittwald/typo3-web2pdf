@@ -36,15 +36,16 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * @package Mittwald
  * @subpackage Web2Pdf\Controller
  */
-class PdfController extends ActionController {
+class PdfController extends ActionController
+{
 
     /**
      * Method provides link generation
      *
      */
-    public function generatePdfLinkAction() {
+    public function generatePdfLinkAction()
+    {
         $this->settings['pdfQueryParameter'] = ModuleOptions::QUERY_PARAMETER;
         $this->view->assign('settings', $this->settings);
     }
-
 }
