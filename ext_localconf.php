@@ -28,10 +28,6 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-if (!class_exists(\Mpdf\Mpdf::class)) {
-    include 'phar://' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('web2pdf') . 'Libraries/mpdf.phar/vendor/autoload.php';
-}
-
 TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'Mittwald.' . $_EXTKEY,
         'Pi1',

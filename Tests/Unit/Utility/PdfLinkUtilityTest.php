@@ -26,7 +26,7 @@
 namespace Mittwald\Tests\Utility;
 
 use Mittwald\Web2pdf\Utility\PdfLinkUtility;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 
 /**
