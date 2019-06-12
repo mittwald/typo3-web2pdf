@@ -3,7 +3,6 @@
 	"description": "Web2PDF Extension",
 	"homepage": "http://www.mittwald.de",
 	"license": "LGPL-3.0",
-	"version": "0.0.4",
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
