@@ -45,10 +45,6 @@
       "[ -L .Build/public/typo3conf/ext/web2pdf ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/web2pdf"
     ]
   },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "master"
-    },
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/public"
