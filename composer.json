@@ -2,7 +2,7 @@
   "name": "mittwald/web2pdf",
   "description": "Web2PDF Extension",
   "homepage": "http://www.mittwald.de",
-  "license": "GPL-2",
+  "license": "proprietary",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "type": "typo3-cms-extension",
