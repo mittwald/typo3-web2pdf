@@ -9,6 +9,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Http\Stream;
 
 class PdfHandler implements MiddlewareInterface
 {
@@ -34,10 +36,18 @@ class PdfHandler implements MiddlewareInterface
             return $handler->handle($request);
         }
 
+        $output = $handler->handle($request);
+
         ob_clean();
 
-        $response = $handler->handle($request);
+        $response = new Response();
+        $file = $this->pdfView->renderHtmlOutput($output->getBody(), 'TEst');
 
-        return $this->pdfView->renderHtmlOutput($response->getBody(), 'TEst');
+        $response = $response->withHeader('Content-Transfer-Encoding', 'binary');
+        $response->getBody()->write(file_get_contents($file));
+        $response = $response->withHeader('Content-Type', 'application/pdf');
+        $response = $response->withHeader('Content-Disposition', $file . '; filename="test.pdf"');
+
+        return $response->withStatus(200);
     }
 }

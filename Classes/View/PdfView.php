@@ -96,11 +96,11 @@ class PdfView
      * @param string $pageTitle
      * @return \TYPO3\CMS\Extbase\Mvc\Web\Response The rendered view
      */
-    public function renderHtmlOutput($content, $pageTitle)
+    public function renderHtmlOutput($content, $pageTitle) : string
     {
 
         $fileName = $this->fileNameUtility->convert($pageTitle) . '.pdf';
-        $filePath = GeneralUtility::getFileAbsFileName('typo3temp/' . $fileName);
+        $filePath = Environment::getVarPath() . '/web2pdf/' . $fileName;
 
         $content = $this->replaceStrings($content);
         $pdf = $this->getPdfObject();
@@ -119,16 +119,9 @@ class PdfView
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
-        return new BinaryFileResponse($filePath);
+        return $filePath;
 
-        header('Content-Description: File Transfer');
-        header('Content-Transfer-Encoding: binary');
-        header('Cache-Control: public, must-revalidate, max-age=0');
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: ' . $destination . '; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
+        return new BinaryFileResponse($filePath);
         readfile($filePath);
         unlink($filePath);
         exit;
