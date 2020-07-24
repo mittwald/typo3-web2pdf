@@ -24,25 +24,21 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-if (!defined('TYPO3_MODE')) {
+if (! defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
 TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'Mittwald.' . $_EXTKEY,
-        'Pi1',
-        array(
-                'Pdf' => 'generatePdfLink',
-        ),
-        array(
-                'Pdf' => 'generatePdfLink',
-        )
+    'web2pdf',
+    'Pi1',
+    [\Mittwald\Web2pdf\Controller\PdfController::class => 'generatePdfLink'],
+    [\Mittwald\Web2pdf\Controller\PdfController::class => 'generatePdfLink']
 );
 
 // Add default real url config
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['web2pdf'] =
-            'EXT:web2pdf/Classes/Service/RealurlService.php:Mittwald\\Web2pdf\\Service\\RealurlService->addAutoConfig';
+        'EXT:web2pdf/Classes/Service/RealurlService.php:Mittwald\\Web2pdf\\Service\\RealurlService->addAutoConfig';
 }
 
 // Add hook for PDF generation

@@ -25,9 +25,15 @@
 
 namespace Mittwald\Web2pdf\View;
 
+use Mittwald\Web2pdf\Options\ModuleOptions;
+use Mittwald\Web2pdf\Utility\FilenameUtility;
+use Mittwald\Web2pdf\Utility\PdfLinkUtility;
 use Mpdf\Mpdf;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 
@@ -45,36 +51,43 @@ class PdfView
 
     const STR_REPLACEMENT_KEY = 'strReplacements';
     /**
-     * @var \Mittwald\Web2pdf\Options\ModuleOptions
-     * @inject
+     * @var ModuleOptions
      */
     protected $options;
 
     /**
-     * @var \Mittwald\Web2pdf\Utility\FilenameUtility
-     * @inject
+     * @var FilenameUtility
      */
     protected $fileNameUtility;
 
     /**
-     * @var \Mittwald\Web2pdf\Utility\PdfLinkUtility
-     * @inject
+     * @var PdfLinkUtility
      */
     protected $pdfLinkUtility;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @throws \InvalidArgumentException
+     * PdfView constructor.
+     * @param ModuleOptions $options
+     * @param FilenameUtility $fileNameUtility
+     * @param PdfLinkUtility $pdfLinkUtility
      */
-    public function __construct()
-    {
-
-        $this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+    public function __construct(
+        ModuleOptions $options,
+        FilenameUtility $fileNameUtility,
+        PdfLinkUtility $pdfLinkUtility,
+        ObjectManagerInterface $objectManager
+    ) {
+        $this->options = $options;
+        $this->fileNameUtility = $fileNameUtility;
+        $this->pdfLinkUtility = $pdfLinkUtility;
+        $this->objectManager = $objectManager;
     }
+
 
     /**
      * Renders the view
@@ -106,6 +119,7 @@ class PdfView
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
+        return new BinaryFileResponse($filePath);
 
         header('Content-Description: File Transfer');
         header('Content-Transfer-Encoding: binary');
@@ -171,7 +185,7 @@ class PdfView
                 'margin_top' => $topMargin,
                 'margin_bottom' => $bottomMargin,
                 'orientation' => $pageOrientation,
-                'tempDir' => PATH_site . 'typo3temp',
+                'tempDir' => Environment::getVarPath() . '/web2pdf',
                 'fontDir' => ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Public/Fonts',
             ]
         );
