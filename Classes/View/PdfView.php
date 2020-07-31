@@ -29,7 +29,6 @@ use Mittwald\Web2pdf\Options\ModuleOptions;
 use Mittwald\Web2pdf\Utility\FilenameUtility;
 use Mittwald\Web2pdf\Utility\PdfLinkUtility;
 use Mpdf\Mpdf;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -94,11 +93,11 @@ class PdfView
      *
      * @param string $content The HTML Code to convert
      * @param string $pageTitle
-     * @return \TYPO3\CMS\Extbase\Mvc\Web\Response The rendered view
+     * @return string $filePath
+     * @throws \Mpdf\MpdfException
      */
-    public function renderHtmlOutput($content, $pageTitle) : string
+    public function renderHtmlOutput($content, $pageTitle): string
     {
-
         $fileName = $this->fileNameUtility->convert($pageTitle) . '.pdf';
         $filePath = Environment::getVarPath() . '/web2pdf/' . $fileName;
 
@@ -114,17 +113,10 @@ class PdfView
             $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
         }
 
-        $destination = ($pdfDestination = $this->options->getPdfDestination()) ? $pdfDestination : 'attachment';
-
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
         return $filePath;
-
-        return new BinaryFileResponse($filePath);
-        readfile($filePath);
-        unlink($filePath);
-        exit;
     }
 
     /**
@@ -133,7 +125,7 @@ class PdfView
      * @param $content
      * @return string
      */
-    private function replaceStrings($content)
+    private function replaceStrings($content): string
     {
 
         if (is_array($this->options->getStrReplacements())) {
@@ -156,7 +148,7 @@ class PdfView
      *
      * @return Mpdf
      */
-    protected function getPdfObject()
+    protected function getPdfObject(): Mpdf
     {
 
         // Get options from TypoScript
@@ -196,7 +188,7 @@ class PdfView
      * @param $templateName
      * @return string
      */
-    protected function getPartial($templateName, $arguments = array())
+    protected function getPartial($templateName, $arguments = array()): string
     {
         /* @var $partial \TYPO3\CMS\Fluid\View\StandaloneView */
         $partial = $this->objectManager->get(StandaloneView::class);

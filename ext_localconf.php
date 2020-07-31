@@ -34,12 +34,3 @@ TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     [\Mittwald\Web2pdf\Controller\PdfController::class => 'generatePdfLink'],
     [\Mittwald\Web2pdf\Controller\PdfController::class => 'generatePdfLink']
 );
-
-// Add default real url config
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration']['web2pdf'] =
-        'EXT:web2pdf/Classes/Service/RealurlService.php:Mittwald\\Web2pdf\\Service\\RealurlService->addAutoConfig';
-}
-
-// Add hook for PDF generation
-$TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'Mittwald\Web2pdf\Service\PdfRenderService->onFrontendOutput';
