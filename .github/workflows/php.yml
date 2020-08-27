@@ -43,4 +43,4 @@ jobs:
       run: vendor/bin/phpunit --colors -c vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/
     
     - name: Run PHP lint
-      run: find . -name \*.php ! -path "./.Build/*" ! -path "./Vendor/*" | xargs php -d display_errors=stderr -l {} > /dev/null \;
+      run: find . -name \*.php ! -path "./public/*" ! -path "./vendor/*" | xargs -n1 php -d display_errors=stderr -l
