@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        php: ['7.2', '7.3', '7.4', '8.0']
+        php: ['7.2', '7.3', '7.4']
         typo3: ['^10.4']
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.php == '8.0' }}
