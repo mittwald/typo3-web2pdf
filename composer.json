@@ -7,9 +7,9 @@
   "prefer-stable": true,
   "type": "typo3-cms-extension",
   "require": {
-    "typo3/cms-core": "^8.7 || ^9.5",
-    "mpdf/mpdf": "^7.1",
-    "php": ">=7.0"
+    "typo3/cms-core": "^10.4",
+    "mpdf/mpdf": "^8.0",
+    "php": ">=7.2"
   },
   "require-dev": {
     "nimut/testing-framework": "^1.0 || ^2.0 || ^3.0 || ^4.0"

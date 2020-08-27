@@ -25,9 +25,14 @@
 
 namespace Mittwald\Web2pdf\View;
 
+use Mittwald\Web2pdf\Options\ModuleOptions;
+use Mittwald\Web2pdf\Utility\FilenameUtility;
+use Mittwald\Web2pdf\Utility\PdfLinkUtility;
 use Mpdf\Mpdf;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 
@@ -45,49 +50,56 @@ class PdfView
 
     const STR_REPLACEMENT_KEY = 'strReplacements';
     /**
-     * @var \Mittwald\Web2pdf\Options\ModuleOptions
-     * @inject
+     * @var ModuleOptions
      */
     protected $options;
 
     /**
-     * @var \Mittwald\Web2pdf\Utility\FilenameUtility
-     * @inject
+     * @var FilenameUtility
      */
     protected $fileNameUtility;
 
     /**
-     * @var \Mittwald\Web2pdf\Utility\PdfLinkUtility
-     * @inject
+     * @var PdfLinkUtility
      */
     protected $pdfLinkUtility;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @throws \InvalidArgumentException
+     * PdfView constructor.
+     * @param ModuleOptions $options
+     * @param FilenameUtility $fileNameUtility
+     * @param PdfLinkUtility $pdfLinkUtility
      */
-    public function __construct()
-    {
-
-        $this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+    public function __construct(
+        ModuleOptions $options,
+        FilenameUtility $fileNameUtility,
+        PdfLinkUtility $pdfLinkUtility,
+        ObjectManagerInterface $objectManager
+    ) {
+        $this->options = $options;
+        $this->fileNameUtility = $fileNameUtility;
+        $this->pdfLinkUtility = $pdfLinkUtility;
+        $this->objectManager = $objectManager;
     }
+
 
     /**
      * Renders the view
      *
      * @param string $content The HTML Code to convert
      * @param string $pageTitle
-     * @return \TYPO3\CMS\Extbase\Mvc\Web\Response The rendered view
+     * @return string $filePath
+     * @throws \Mpdf\MpdfException
      */
-    public function renderHtmlOutput($content, $pageTitle)
+    public function renderHtmlOutput($content, $pageTitle): string
     {
-
         $fileName = $this->fileNameUtility->convert($pageTitle) . '.pdf';
-        $filePath = GeneralUtility::getFileAbsFileName('typo3temp/' . $fileName);
+        $filePath = Environment::getVarPath() . '/web2pdf/' . $fileName;
 
         $content = $this->replaceStrings($content);
         $pdf = $this->getPdfObject();
@@ -101,23 +113,10 @@ class PdfView
             $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
         }
 
-        $destination = ($pdfDestination = $this->options->getPdfDestination()) ? $pdfDestination : 'attachment';
-
         $pdf->WriteHTML($content);
         $pdf->Output($filePath, 'F');
 
-
-        header('Content-Description: File Transfer');
-        header('Content-Transfer-Encoding: binary');
-        header('Cache-Control: public, must-revalidate, max-age=0');
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: ' . $destination . '; filename="' . $this->fileNameUtility->convert($pageTitle) . '.pdf' . '"');
-        readfile($filePath);
-        unlink($filePath);
-        exit;
+        return $filePath;
     }
 
     /**
@@ -126,7 +125,7 @@ class PdfView
      * @param $content
      * @return string
      */
-    private function replaceStrings($content)
+    private function replaceStrings($content): string
     {
 
         if (is_array($this->options->getStrReplacements())) {
@@ -149,7 +148,7 @@ class PdfView
      *
      * @return Mpdf
      */
-    protected function getPdfObject()
+    protected function getPdfObject(): Mpdf
     {
 
         // Get options from TypoScript
@@ -171,7 +170,7 @@ class PdfView
                 'margin_top' => $topMargin,
                 'margin_bottom' => $bottomMargin,
                 'orientation' => $pageOrientation,
-                'tempDir' => PATH_site . 'typo3temp',
+                'tempDir' => Environment::getVarPath() . '/web2pdf',
                 'fontDir' => ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Public/Fonts',
             ]
         );
@@ -189,7 +188,7 @@ class PdfView
      * @param $templateName
      * @return string
      */
-    protected function getPartial($templateName, $arguments = array())
+    protected function getPartial($templateName, $arguments = array()): string
     {
         /* @var $partial \TYPO3\CMS\Fluid\View\StandaloneView */
         $partial = $this->objectManager->get(StandaloneView::class);

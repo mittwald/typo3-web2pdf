@@ -40,7 +40,6 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
 
     /**
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
-     * @inject
      */
     protected $configurationManager;
 
@@ -54,7 +53,8 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
      *
      * @throws \TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException
      */
-    public function initializeObject() {
+    public function __construct(ConfigurationManagerInterface $configurationManager) {
+        $this->configurationManager = $configurationManager;
         $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
         // Check if typoscript is given before, if not ignore
