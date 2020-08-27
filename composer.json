@@ -27,7 +27,6 @@
     }
   },
   "replace": {
-    "web2pdf": "self.version",
     "typo3-ter/web2pdf": "self.version"
   },
   "config": {
