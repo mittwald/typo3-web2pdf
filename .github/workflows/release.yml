@@ -1,0 +1,23 @@
+name: Unit tests
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: "7.4"
+        extensions: mbstring, intl, json
+        coverage: pcov
+        tools: composer:v2
+
+    - name: Run release script
+      run: |
+        composer extension-release

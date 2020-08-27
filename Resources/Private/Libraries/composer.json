@@ -1,0 +1,6 @@
+{
+    "name": "mittwald/web2pdf",
+    "require": {
+        "mpdf/mpdf": "^8.0"
+    }
+}

@@ -5,6 +5,6 @@
 /var/
 /public/
 /vendor/
-Libraries/*
+/Resources/Private/Libraries/vendor
 data
 composer.lock

@@ -30,11 +30,7 @@
     "typo3-ter/web2pdf": "self.version"
   },
   "scripts": {
-    "extension-release": [
-      "rm -rf Tests/",
-      "rm .gitignore",
-      "rm -rf .github"
-    ],
+    "extension-release": ["sh Build/package-version.sh"],
     "post-autoload-dump": [
       "mkdir -p public/typo3conf/ext/",
       "[ -L public/typo3conf/ext/web2pdf ] || ln -snvf ../../../. public/typo3conf/ext/web2pdf"
