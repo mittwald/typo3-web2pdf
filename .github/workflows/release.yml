@@ -18,6 +18,21 @@ jobs:
         coverage: pcov
         tools: composer:v2
 
-    - name: Run release script
+    - name: Build extension ZIP
       run: |
-        composer extension-release
+        composer extension-package
+
+    - name: Release ZIP on Github
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          web2pdf_*.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_USER_TOKEN }}
+    
+    - name: Release ZIP on TER
+      run: |
+        composer publish-package
+      env:
+        TER_USERNAME: ${{ secrets.TER_USERNAME }}
+        TER_PASSWORD: ${{ secrets.TER_PASSWORD }}
