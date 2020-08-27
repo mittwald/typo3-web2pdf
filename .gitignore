@@ -2,7 +2,9 @@
 .idea
 
 # Local files
-.Build
+/var/
+/public/
+/vendor/
 Libraries/*
 data
 composer.lock
