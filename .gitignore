@@ -2,7 +2,9 @@
 .idea
 
 # Local files
-.Build
-Libraries/*
+/var/
+/public/
+/vendor/
+/Resources/Private/Libraries/vendor
 data
 composer.lock

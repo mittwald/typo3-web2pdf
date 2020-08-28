@@ -28,6 +28,15 @@ if (! defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
+// Include the Composer autoloader from "Resources/Private/Libraries". This is
+// only necessary when this extension is installed from TER; when using
+// Composer, the MPDF dependency is pulled via Composer like any sane person
+// would.
+$mpdfAutoload = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Private/Libraries/vendor/autoload.php';
+if (file_exists($mpdfAutoload)) {
+    require_once($mpdfAutoload);
+}
+
 TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
     'web2pdf',
     'Pi1',

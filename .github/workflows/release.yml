@@ -1,0 +1,38 @@
+name: Unit tests
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: "7.4"
+        extensions: mbstring, intl, json
+        coverage: pcov
+        tools: composer:v2
+
+    - name: Build extension ZIP
+      run: |
+        composer extension-package
+
+    - name: Release ZIP on Github
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          web2pdf_*.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_USER_TOKEN }}
+    
+    - name: Release ZIP on TER
+      run: |
+        composer publish-package
+      env:
+        TER_USERNAME: ${{ secrets.TER_USERNAME }}
+        TER_PASSWORD: ${{ secrets.TER_PASSWORD }}

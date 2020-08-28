@@ -12,7 +12,7 @@
     "php": ">=7.2"
   },
   "require-dev": {
-    "nimut/testing-framework": "^1.0 || ^2.0 || ^3.0 || ^4.0"
+    "nimut/testing-framework": "*"
   },
   "autoload": {
     "psr-4": {
@@ -22,33 +22,25 @@
   "autoload-dev": {
     "psr-4": {
       "Mittwald\\Web2pdf\\Tests\\": "Tests",
-      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
-      "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
+      "TYPO3\\CMS\\Core\\Tests\\": "vendor/typo3/cms/typo3/sysext/core/Tests/",
+      "TYPO3\\CMS\\Fluid\\Tests\\": "vendor/typo3/cms/typo3/sysext/fluid/Tests/"
     }
   },
   "replace": {
-    "web2pdf": "self.version",
     "typo3-ter/web2pdf": "self.version"
   },
-  "config": {
-    "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
-  },
   "scripts": {
-    "extension-release": [
-      "rm -rf Tests/",
-      "rm .gitignore",
-      "rm .travis.yml"
-    ],
+    "extension-package": ["sh Build/package-version.sh"],
+    "publish-package": ["sh Build/publish-version.sh"],
     "post-autoload-dump": [
-      "mkdir -p .Build/public/typo3conf/ext/",
-      "[ -L .Build/public/typo3conf/ext/web2pdf ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/web2pdf"
+      "mkdir -p public/typo3conf/ext/",
+      "[ -L public/typo3conf/ext/web2pdf ] || ln -snvf ../../../. public/typo3conf/ext/web2pdf"
     ]
   },
   "extra": {
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/public"
+      "web-dir": "public"
     }
   }
 }
