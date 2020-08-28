@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/mittwald/typo3-web2pdf.svg)](https://travis-ci.org/mittwald/typo3-web2pdf)
 
 # Mittwald TYPO3 Extension ``web2pdf``
 
