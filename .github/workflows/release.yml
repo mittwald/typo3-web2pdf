@@ -31,9 +31,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_USER_TOKEN }}
     
-    - name: Release ZIP on TER
+    - name: Prepare TER release
       run: |
-        composer publish-package
-      env:
-        TER_USERNAME: ${{ secrets.TER_USERNAME }}
-        TER_PASSWORD: ${{ secrets.TER_PASSWORD }}
+        mkdir ter-upload
+        unzip -d ter-upload ./web2pdf_*.zip
+    
+    - name: Release ZIP on TER
+      uses: mittwald/typo3-publish-ter-action@v1.0.0-beta1
+      with:
+        ter-username: ${{ secrets.TER_USERNAME }}
+        ter-password: ${{ secrets.TER_PASSWORD }}
+        extension-key: web2pdf
+        extension-dir: ./ter-upload
