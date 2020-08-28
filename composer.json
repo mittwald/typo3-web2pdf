@@ -30,8 +30,8 @@
     "typo3-ter/web2pdf": "self.version"
   },
   "scripts": {
-    "extension-package": ["sh Build/package-version.sh"],
-    "publish-package": ["sh Build/publish-version.sh"],
+    "extension-package": ["bash -x Build/package-version.sh"],
+    "publish-package": ["bash -x Build/publish-version.sh"],
     "post-autoload-dump": [
       "mkdir -p public/typo3conf/ext/",
       "[ -L public/typo3conf/ext/web2pdf ] || ln -snvf ../../../. public/typo3conf/ext/web2pdf"
