@@ -37,7 +37,7 @@ jobs:
         unzip -d ter-upload ./web2pdf_*.zip
     
     - name: Release ZIP on TER
-      uses: mittwald/typo3-publish-ter-action@v1.0.0-beta1
+      uses: mittwald/typo3-publish-ter-action@v1.0.0-beta2
       with:
         ter-username: ${{ secrets.TER_USERNAME }}
         ter-password: ${{ secrets.TER_PASSWORD }}
