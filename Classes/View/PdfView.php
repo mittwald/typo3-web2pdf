@@ -154,10 +154,12 @@ class PdfView
         // Get options from TypoScript
         $pageFormat = ($this->options->getPdfPageFormat()) ? $this->options->getPdfPageFormat() : 'A4';
         $pageOrientation = ($orientation = $this->options->getPdfPageOrientation()) ? $orientation : 'L';
-        $leftMargin = ($this->options->getPdfLeftMargin()) ? $this->options->getPdfLeftMargin() : '15';
-        $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
-        $bottomMargin = ($this->options->getPdfBottomMargin()) ? $this->options->getPdfBottomMargin() : '15';
-        $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
+        $leftMargin = ($this->options->getPdfLeftMargin() || $this->options->getPdfLeftMargin() == 0) ? $this->options->getPdfLeftMargin() : '15';
+        $rightMargin = ($this->options->getPdfRightMargin() || $this->options->getPdfRightMargin() == 0) ? $this->options->getPdfRightMargin() : '15';
+        $bottomMargin = ($this->options->getPdfBottomMargin() || $this->options->getPdfBottomMargin() == 0) ? $this->options->getPdfBottomMargin() : '15';
+        $topMargin = ($this->options->getPdfTopMargin() || $this->options->getPdfTopMargin() == 0) ? $this->options->getPdfTopMargin() : '15';
+        $headerMargin = ($this->options->getPdfHeaderMargin() || $this->options->getPdfHeaderMargin() == 0) ? $this->options->getPdfHeaderMargin() : '9';
+        $footerMargin = ($this->options->getPdfFooterMargin() || $this->options->getPdfFooterMargin() == 0) ? $this->options->getPdfFooterMargin() : '9';
         $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
 
         /* @var $pdf Mpdf */
@@ -169,6 +171,8 @@ class PdfView
                 'margin_right' => $rightMargin,
                 'margin_top' => $topMargin,
                 'margin_bottom' => $bottomMargin,
+                'margin_header' => $headerMargin,
+                'margin_footer' => $footerMargin,
                 'orientation' => $pageOrientation,
                 'tempDir' => Environment::getVarPath() . '/web2pdf',
                 'fontDir' => ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Public/Fonts',

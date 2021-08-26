@@ -37,6 +37,12 @@
             <trans-unit id="constants.pdf.leftMargin">
                 <source>Left margin</source>
             </trans-unit>
+            <trans-unit id="constants.pdf.headerMargin">
+                <source>Header margin</source>
+            </trans-unit>
+            <trans-unit id="constants.pdf.footerMargin">
+                <source>Footer margin</source>
+            </trans-unit>
             <trans-unit id="constants.pdf.fontSize">
                 <source>Default font size</source>
             </trans-unit>
