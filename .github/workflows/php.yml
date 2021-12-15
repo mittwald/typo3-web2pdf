@@ -1,12 +1,6 @@
 name: Unit tests
 
-on:
-  push:
-    branches:
-      - 'master'
-    tags:
-      - '*'
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   build:
