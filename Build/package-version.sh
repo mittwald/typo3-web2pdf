@@ -2,6 +2,8 @@
 
 if [ -n "${VERSION}" ] ; then
     true # pass
+elif [ -n "$1" ] ; then
+    VERSION="$1"
 elif [ -n "${GITHUB_REF}" ] ; then
     VERSION="${GITHUB_REF/refs\/tags\//}"
     VERSION="${VERSION#v}"
@@ -21,7 +23,6 @@ composer install --no-dev
 
 popd
 
-sed -i -e "s,[0-9]\.[0-9]-dev,${VERSION},g" ext_emconf.php
 zip -9 -r \
     --exclude=Resources/Private/Libraries/vendor/mpdf/mpdf/ttfonts/* \
     web2pdf_${VERSION}.zip \
@@ -34,3 +35,4 @@ zip -9 -r \
     ext_localconf.php \
     LICENSE.txt \
     README.md \
+    composer.json \
