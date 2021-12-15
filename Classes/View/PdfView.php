@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,7 +22,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Web2pdf\View;
 
@@ -32,17 +33,8 @@ use Mpdf\Mpdf;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-
-/**
- * PDFView
- *
- * @author Kevin Purrmann <entwicklung@purrmann-websolutions.de>, Purrmann Websolutions
- * @package Mittwald
- * @subpackage Web2Pdf\View
- */
 class PdfView
 {
 
@@ -65,11 +57,6 @@ class PdfView
     protected $pdfLinkUtility;
 
     /**
-     * @var ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
      * PdfView constructor.
      * @param ModuleOptions $options
      * @param FilenameUtility $fileNameUtility
@@ -78,13 +65,11 @@ class PdfView
     public function __construct(
         ModuleOptions $options,
         FilenameUtility $fileNameUtility,
-        PdfLinkUtility $pdfLinkUtility,
-        ObjectManagerInterface $objectManager
+        PdfLinkUtility $pdfLinkUtility
     ) {
         $this->options = $options;
         $this->fileNameUtility = $fileNameUtility;
         $this->pdfLinkUtility = $pdfLinkUtility;
-        $this->objectManager = $objectManager;
     }
 
 
@@ -160,20 +145,17 @@ class PdfView
         $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
         $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
 
-        /* @var $pdf Mpdf */
-        $pdf = $this->objectManager->get(
-            Mpdf::class, [
-                'format' => $pageFormat,
-                'default_font_size' => 12,
-                'margin_left' => $leftMargin,
-                'margin_right' => $rightMargin,
-                'margin_top' => $topMargin,
-                'margin_bottom' => $bottomMargin,
-                'orientation' => $pageOrientation,
-                'tempDir' => Environment::getVarPath() . '/web2pdf',
-                'fontDir' => ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Public/Fonts',
-            ]
-        );
+        $pdf = new Mpdf([
+            'format' => $pageFormat,
+            'default_font_size' => 12,
+            'margin_left' => $leftMargin,
+            'margin_right' => $rightMargin,
+            'margin_top' => $topMargin,
+            'margin_bottom' => $bottomMargin,
+            'orientation' => $pageOrientation,
+            'tempDir' => Environment::getVarPath() . '/web2pdf',
+            'fontDir' => ExtensionManagementUtility::extPath('web2pdf') . 'Resources/Public/Fonts',
+        ]);
 
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
 
@@ -190,8 +172,7 @@ class PdfView
      */
     protected function getPartial($templateName, $arguments = array()): string
     {
-        /* @var $partial \TYPO3\CMS\Fluid\View\StandaloneView */
-        $partial = $this->objectManager->get(StandaloneView::class);
+        $partial = GeneralUtility::makeInstance(StandaloneView::class);
         $partial->setLayoutRootPaths($this->options->getLayoutRootPaths());
         $partial->setPartialRootPaths($this->options->getPartialRootPaths());
         $partial->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(end($partial->getPartialRootPaths())) . 'Pdf/' . ucfirst($templateName) . '.html');
