@@ -27,7 +27,7 @@ plugin.tx_web2pdf {
         # cat=plugin.tx_web2pdf/pdf/7; type=options[LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet.print=print,LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet.screen=screen]; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.styleSheet
         pdfStyleSheet = allAndPrint
         # cat=plugin.tx_web2pdf/pdf/8; type=options[LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.destination.attachment=attachment,LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.destination.inline=inline]; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.destination
-        pdfDestination = Download
+        pdfDestination = attachment
         # cat=plugin.tx_web2pdf/pdf/9; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.useCustomFooter
         useCustomFooter = 0
         # cat=plugin.tx_web2pdf/pdf/10; type=boolean; label=LLL:EXT:web2pdf/Resources/Private/Language/locallang.xlf:constants.pdf.useCustomHeader
