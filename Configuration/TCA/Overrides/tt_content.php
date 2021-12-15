@@ -1,6 +1,5 @@
 <?php
 
-
 (function () {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
         'web2pdf',

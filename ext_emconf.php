@@ -24,9 +24,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Web2PDF',
-    'description' => 'This Extension renders the pagecontent to a PDF file. It supports css and uses the library mPDF. This extension is based on the pdf_generator2.',
+    'description' => 'This Extension renders the pagecontent to a PDF file. It supports css and uses the library mPDF.',
     'category' => 'plugin',
     'author' => 'Mittwald CM Service',
     'author_company' => 'Mittwald CM Service',
@@ -35,10 +35,10 @@ $EM_CONF[$_EXTKEY] = array(
     'state' => 'stable',
     'clearCacheOnLoad' => '1',
     'version' => '3.0.0',
-    'constraints' => array(
-        'depends' => array(
+    'constraints' => [
+        'depends' => [
             'typo3' => '11.5.0-11.5.99',
             'php' => '7.4.0-8.1.99',
-        ),
-    ),
-);
+        ],
+    ],
+];
