@@ -37,31 +37,13 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class PdfView
 {
-
     const PREG_REPLACEMENT_KEY = 'pregReplacements';
-
     const STR_REPLACEMENT_KEY = 'strReplacements';
-    /**
-     * @var ModuleOptions
-     */
-    protected $options;
 
-    /**
-     * @var FilenameUtility
-     */
-    protected $fileNameUtility;
+    protected ModuleOptions $options;
+    protected FilenameUtility $fileNameUtility;
+    protected PdfLinkUtility $pdfLinkUtility;
 
-    /**
-     * @var PdfLinkUtility
-     */
-    protected $pdfLinkUtility;
-
-    /**
-     * PdfView constructor.
-     * @param ModuleOptions $options
-     * @param FilenameUtility $fileNameUtility
-     * @param PdfLinkUtility $pdfLinkUtility
-     */
     public function __construct(
         ModuleOptions $options,
         FilenameUtility $fileNameUtility,
@@ -72,16 +54,15 @@ class PdfView
         $this->pdfLinkUtility = $pdfLinkUtility;
     }
 
-
     /**
-     * Renders the view
+     * Renders the PDF view
      *
      * @param string $content The HTML Code to convert
      * @param string $pageTitle
      * @return string $filePath
      * @throws \Mpdf\MpdfException
      */
-    public function renderHtmlOutput($content, $pageTitle): string
+    public function renderHtmlOutput(string $content, string $pageTitle): string
     {
         $fileName = $this->fileNameUtility->convert($pageTitle) . '.pdf';
         $filePath = Environment::getVarPath() . '/web2pdf/' . $fileName;
@@ -89,13 +70,13 @@ class PdfView
         $content = $this->replaceStrings($content);
         $pdf = $this->getPdfObject();
 
-        // Add Header
+        // Add Header if configured
         if ($this->options->getUseCustomHeader()) {
-            $pdf->SetHTMLHeader($this->getPartial('Header', array('title' => $pageTitle)));
+            $pdf->SetHTMLHeader($this->getPartial('Header', ['title' => $pageTitle]));
         }
-        // Add Footer
+        // Add Footer if configured
         if ($this->options->getUseCustomFooter()) {
-            $pdf->SetHTMLFooter($this->getPartial('Footer', array('title' => $pageTitle)));
+            $pdf->SetHTMLFooter($this->getPartial('Footer', ['title' => $pageTitle]));
         }
 
         $pdf->WriteHTML($content);
@@ -107,12 +88,11 @@ class PdfView
     /**
      * Replacements of configured strings
      *
-     * @param $content
+     * @param string $content
      * @return string
      */
-    private function replaceStrings($content): string
+    private function replaceStrings(string $content): string
     {
-
         if (is_array($this->options->getStrReplacements())) {
             foreach ($this->options->getStrReplacements() as $searchString => $replacement) {
                 $content = str_replace($searchString, $replacement, $content);
@@ -135,15 +115,14 @@ class PdfView
      */
     protected function getPdfObject(): Mpdf
     {
-
         // Get options from TypoScript
-        $pageFormat = ($this->options->getPdfPageFormat()) ? $this->options->getPdfPageFormat() : 'A4';
-        $pageOrientation = ($orientation = $this->options->getPdfPageOrientation()) ? $orientation : 'L';
-        $leftMargin = ($this->options->getPdfLeftMargin()) ? $this->options->getPdfLeftMargin() : '15';
-        $rightMargin = ($this->options->getPdfRightMargin()) ? $this->options->getPdfRightMargin() : '15';
-        $bottomMargin = ($this->options->getPdfBottomMargin()) ? $this->options->getPdfBottomMargin() : '15';
-        $topMargin = ($this->options->getPdfTopMargin()) ? $this->options->getPdfTopMargin() : '15';
-        $styleSheet = ($this->options->getPdfStyleSheet()) ? $this->options->getPdfStyleSheet() : 'print';
+        $pageFormat = $this->options->getPdfPageFormat() ?? 'A4';
+        $pageOrientation = $this->options->getPdfPageOrientation() ?? 'L';
+        $leftMargin = $this->options->getPdfLeftMargin() ?? '15';
+        $rightMargin = $this->options->getPdfRightMargin() ?? '15';
+        $bottomMargin = $this->options->getPdfBottomMargin() ?? '15';
+        $topMargin = $this->options->getPdfTopMargin() ?? '15';
+        $styleSheet =  $this->options->getPdfStyleSheet() ?? 'print';
 
         $pdf = new Mpdf([
             'format' => $pageFormat,
@@ -159,7 +138,7 @@ class PdfView
 
         $pdf->SetMargins($leftMargin, $rightMargin, $topMargin);
 
-        if ($styleSheet == 'print' || $styleSheet == 'screen') {
+        if ($styleSheet === 'print' || $styleSheet === 'screen') {
             $pdf->CSSselectMedia = $styleSheet;
         }
 
@@ -167,18 +146,23 @@ class PdfView
     }
 
     /**
-     * @param $templateName
+     * Renders the given templateName. Note, that the template must actually reside in Partials/ folder.
+     *
+     * @param string $templateName
+     * @param array $arguments
      * @return string
      */
-    protected function getPartial($templateName, $arguments = array()): string
+    protected function getPartial(string $templateName, array $arguments = []): string
     {
         $partial = GeneralUtility::makeInstance(StandaloneView::class);
         $partial->setLayoutRootPaths($this->options->getLayoutRootPaths());
         $partial->setPartialRootPaths($this->options->getPartialRootPaths());
-        $partial->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(end($partial->getPartialRootPaths())) . 'Pdf/' . ucfirst($templateName) . '.html');
+        $partialsPaths = $partial->getPartialRootPaths();
+        $partial->setTemplatePathAndFilename(
+            GeneralUtility::getFileAbsFileName(end($partialsPaths)) . 'Pdf/' . ucfirst($templateName) . '.html'
+        );
         $partial->assign('data', $arguments);
 
         return $partial->render();
     }
-
 }

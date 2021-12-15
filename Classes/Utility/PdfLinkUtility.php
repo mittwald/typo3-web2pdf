@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,29 +22,24 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Web2pdf\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-/**
- * Class PdfLinkUtility
- * @package Mittwald\Web2pdf\Utility
- */
-class PdfLinkUtility {
-
+class PdfLinkUtility
+{
     /**
      * Method removes local absolute url if link section is given
      * Method keeps external links
      * Method keeps external links with sections
      *
-     * @param $content
+     * @param string $content
      * @return string
      */
-    public function replace($content) {
-
+    public function replace(string $content): string
+    {
         $tmpSiteUri = $this->getSiteUri();
         $currentSiteUri = (preg_match('/^\//', $tmpSiteUri)) ? $tmpSiteUri : '/' . $tmpSiteUri;
         $currentHost = $this->getHost();
@@ -60,25 +56,22 @@ class PdfLinkUtility {
         }, $content);
 
         return $replacedContent;
-
     }
-
 
     /**
      * @return string
      * @throws \UnexpectedValueException
      */
-    protected function getSiteUri() {
-        return htmlentities(GeneralUtility::getIndpEnv("TYPO3_SITE_SCRIPT"));
+    protected function getSiteUri(): string
+    {
+        return htmlentities(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'));
     }
 
     /**
      * @return string
      */
-    protected function getHost() {
-
-        return ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+    protected function getHost(): string
+    {
+        return $_SERVER['HTTP_HOST'] ?? '';
     }
-
-
 }
