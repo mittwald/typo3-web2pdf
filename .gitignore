@@ -2,10 +2,13 @@
 .idea
 
 # Local files
+.Build
+.php-cs-fixer.cache
+.phpunit.result.cache
+
 /var/
 /public/
 /vendor/
 /Resources/Private/Libraries/vendor
 data
 composer.lock
-.php-cs-fixer.cache

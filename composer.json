@@ -12,7 +12,7 @@
     "php": ">=7.4"
   },
   "require-dev": {
-    "nimut/testing-framework": "*",
+    "typo3/testing-framework": "^6.9.0",
     "friendsofphp/php-cs-fixer": "^3.0"
   },
   "autoload": {
@@ -33,15 +33,20 @@
   "scripts": {
     "extension-package": ["bash -x Build/package-version.sh"],
     "post-autoload-dump": [
-      "mkdir -p public/typo3conf/ext/",
-      "[ -L public/typo3conf/ext/web2pdf ] || ln -snvf ../../../. public/typo3conf/ext/web2pdf"
+      "mkdir -p .Build/public/typo3conf/ext/",
+      "[ -L .Build/public/typo3conf/ext/web2pdf ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/web2pdf"
     ]
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
   },
   "extra": {
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "extension-key": "web2pdf",
-      "web-dir": "public"
+      "app-dir": ".Build",
+      "web-dir": ".Build/public"
     }
   }
 }

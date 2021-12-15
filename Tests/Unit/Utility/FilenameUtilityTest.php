@@ -26,50 +26,52 @@
 namespace Mittwald\Tests\Utility;
 
 use Mittwald\Web2pdf\Utility\FilenameUtility;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
-
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Class PdfLinkUtilityTest
- * @package Mittwald\Tests\Utility
  */
 class FilenameUtilityTest extends UnitTestCase
 {
+    /**
+     * @var FilenameUtility
+     */
+    protected $subject;
 
     /**
-     * @var FilenameUtility|\PHPUnit_Framework_MockObject_MockObject
+     * Setup
      */
-    protected $fixture;
+    protected function setUp(): void
+    {
+        $this->subject = new FilenameUtility();
+    }
 
+    /**
+     * Teardown
+     */
+    protected function tearDown(): void
+    {
+        unset($this->subject);
+    }
 
     /**
      * @dataProvider getTitleData
      */
     public function testConvertMethod($string, $expected)
     {
-        $this->assertEquals($expected, $this->fixture->convert($string));
+        self::assertEquals($expected, $this->subject->convert($string));
     }
-
 
     /**
      * @return array
      */
     public function getTitleData()
     {
-        return array(
-            array('my tést string', 'my_test_string'),
-            array('mY TeSt', 'mY_TeSt'),
-            array('my test 123', 'my_test_123'),
-            array('my tést 123', 'my_test_123') // in case it should be é to e // works but could not find a way to test it
-        );
+        return [
+            ['my tést string', 'my_test_string'],
+            ['mY TeSt', 'mY_TeSt'],
+            ['my test 123', 'my_test_123'],
+            ['my tést 123', 'my_test_123'], // in case it should be é to e // works but could not find a way to test it
+        ];
     }
-
-    /**
-     * Set up fixture
-     */
-    protected function setUp()
-    {
-        $this->fixture = new FilenameUtility();
-    }
-
 }
