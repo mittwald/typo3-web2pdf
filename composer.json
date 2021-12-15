@@ -1,15 +1,15 @@
 {
   "name": "mittwald/web2pdf",
   "description": "Web2PDF Extension",
-  "homepage": "http://www.mittwald.de",
+  "homepage": "https://www.mittwald.de",
   "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "type": "typo3-cms-extension",
   "require": {
-    "typo3/cms-core": "^10.4",
+    "typo3/cms-core": "^11.5",
     "mpdf/mpdf": "^8.0",
-    "php": ">=7.2"
+    "php": ">=7.4"
   },
   "require-dev": {
     "nimut/testing-framework": "*"

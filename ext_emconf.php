@@ -34,16 +34,11 @@ $EM_CONF[$_EXTKEY] = array(
     'dependencies' => 'extbase,fluid',
     'state' => 'stable',
     'clearCacheOnLoad' => '1',
-    'version' => '1.2-dev',
+    'version' => '3.0.0',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '10.4.0-10.4.99',
-            'php' => '7.2.0-7.4.99',
-        ),
-    ),
-    'autoload' => array(
-        'psr-4' => array(
-            'Mittwald\\Web2pdf\\' => 'Classes',
+            'typo3' => '11.5.0-11.5.99',
+            'php' => '7.4.0-8.1.99',
         ),
     ),
 );
