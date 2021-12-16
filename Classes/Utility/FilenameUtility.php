@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,55 +22,34 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Web2pdf\Utility;
 
-
-/**
- * Class provides functionality to convert strings into appreciable filename
- *
- * @auto Kevin Purrmann <entwicklung@purrmann-websolutions.de>, Purrmann Websolutions
- * @package Mittwald
- * @subpackage Web2Pdf\Utility
- */
 class FilenameUtility
 {
-
     /**
      * @param string $fileName
      * @return string
-     * @throws \InvalidArgumentException
      */
-    public function convert($fileName)
+    public function convert(string $fileName): string
     {
-
-        if (!is_string($fileName)) {
-            throw new \InvalidArgumentException('String needed as argument');
-        }
-
-        return preg_replace(array('/\s/', '/\.[\.]+/', '/[^a-zA-Z0-9-_]+/'), array('_', '_', ''), $this->replaceSpecialChars($fileName));
+        return preg_replace(['/\s/', '/\.[\.]+/', '/[^a-zA-Z0-9-_]+/'], ['_', '_', ''], $this->replaceSpecialChars($fileName));
     }
 
-
     /**
-     * @param $string
+     * @param string $string
      * @return string
      */
-    protected function replaceSpecialChars($string)
+    protected function replaceSpecialChars(string $string)
     {
         $string = html_entity_decode($string, ENT_COMPAT, 'UTF-8');
 
         $oldLocale = setlocale(LC_CTYPE, '0');
-
         setlocale(LC_CTYPE, 'en_US.UTF-8');
         $string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
-
         setlocale(LC_CTYPE, $oldLocale);
 
         return $string;
-
     }
-
-
 }

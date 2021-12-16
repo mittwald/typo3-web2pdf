@@ -1,32 +1,23 @@
 name: Unit tests
 
-on:
-  push:
-    branches:
-      - 'master'
-    tags:
-      - '*'
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   build:
     strategy:
       matrix:
-        php: ['7.2', '7.3', '7.4']
-        typo3: ['^10.4']
+        php: ['7.4', '8.0', '8.1']
+        typo3: ['^11.5']
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.php == '8.0' }}
     name: PHP ${{ matrix.php }}, TYPO3 ${{ matrix.typo3 }}
     
     steps:
     - uses: actions/checkout@v1
-      
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v1
+
+    - name: Set up PHP Version
+      uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
-        extensions: mbstring, intl, json
-        coverage: pcov
         tools: composer:v2
 
     - name: Validate composer.json and composer.lock
@@ -40,7 +31,7 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run unit tests
-      run: vendor/bin/phpunit --colors -c vendor/nimut/testing-framework/res/Configuration/UnitTests.xml Tests/Unit/
-    
+      run: .Build/bin/phpunit --colors -c Tests/Build/UnitTests.xml
+
     - name: Run PHP lint
-      run: find . -name \*.php ! -path "./public/*" ! -path "./vendor/*" | xargs -n1 php -d display_errors=stderr -l
+      run: find . -name \*.php ! -path "./.Build/*" ! -path "./public/*" ! -path "./vendor/*" | xargs -n1 php -d display_errors=stderr -l

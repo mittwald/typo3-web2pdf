@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,58 +22,57 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Web2pdf\Options;
 
 use Mittwald\Web2pdf\View\PdfView;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
-
-/**
- * Class provides access to all typoscript settings
- * which are set in Configuration/TypoScript/setup.txt
- *
- */
-class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
-
+class ModuleOptions implements SingletonInterface
+{
     const QUERY_PARAMETER = 'printPage';
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
-     */
-    protected $configurationManager;
-
-    /**
-     * @var array
-     */
-    protected $options = array();
+    protected ConfigurationManagerInterface $configurationManager;
+    protected array $options = [];
 
     /**
      * Fills typoscript settings into options
      *
      * @throws \TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException
      */
-    public function __construct(ConfigurationManagerInterface $configurationManager) {
+    public function __construct(ConfigurationManagerInterface $configurationManager)
+    {
         $this->configurationManager = $configurationManager;
-        $configuration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        $configuration = $this->configurationManager
+            ->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
         // Check if typoscript is given before, if not ignore
         if (isset($configuration['plugin.']['tx_web2pdf.']['settings.']) &&
-                isset($configuration['plugin.']['tx_web2pdf.']['view.']) &&
-                ($this->options = array_merge($configuration['plugin.']['tx_web2pdf.']['settings.'], $configuration['plugin.']['tx_web2pdf.']['view.']))
+            isset($configuration['plugin.']['tx_web2pdf.']['view.']) &&
+            ($this->options = array_merge(
+                $configuration['plugin.']['tx_web2pdf.']['settings.'],
+                $configuration['plugin.']['tx_web2pdf.']['view.']
+            ))
         ) {
             if (is_array($this->options['pdfPregSearch.']) && is_array($this->options['pdfPregReplace.'])) {
-                $this->mergeReplaceConfiguration($this->options['pdfPregSearch.'], $this->options['pdfPregReplace.'], PdfView::PREG_REPLACEMENT_KEY);
+                $this->mergeReplaceConfiguration(
+                    $this->options['pdfPregSearch.'],
+                    $this->options['pdfPregReplace.'],
+                    PdfView::PREG_REPLACEMENT_KEY
+                );
                 unset($this->options['pdfPregSearch.'], $this->options['pdfPregReplace.']);
             }
 
             if (is_array($this->options['pdfStrSearch.']) && is_array($this->options['pdfStrReplace.'])) {
-                $this->mergeReplaceConfiguration($this->options['pdfStrSearch.'], $this->options['pdfStrReplace.'], PdfView::STR_REPLACEMENT_KEY);
+                $this->mergeReplaceConfiguration(
+                    $this->options['pdfStrSearch.'],
+                    $this->options['pdfStrReplace.'],
+                    PdfView::STR_REPLACEMENT_KEY
+                );
                 unset($this->options['pdfStrSearch.'], $this->options['pdfStrReplace.']);
             }
         }
-
     }
 
     /**
@@ -82,14 +82,13 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
      * @param $replaceArray
      * @param $newKey
      */
-    private function mergeReplaceConfiguration($searchArray, $replaceArray, $newKey) {
-
+    private function mergeReplaceConfiguration($searchArray, $replaceArray, $newKey)
+    {
         foreach ($searchArray as $key => $searchString) {
             if (isset($replaceArray[$key]) && $searchString !== '' && !empty($replaceArray[$key])) {
                 $this->options[$newKey][$searchString] = $replaceArray[$key];
             }
         }
-
     }
 
     /**
@@ -100,26 +99,33 @@ class ModuleOptions implements \TYPO3\CMS\Core\SingletonInterface {
      * @param array $arguments
      * @return mixed|null
      */
-    public function __call($methodName, $arguments) {
+    public function __call($methodName, $arguments)
+    {
         if (is_array($this->options) && substr($methodName, 0, 3) === 'get' && strlen($methodName) > 5) {
             $propertyName = lcfirst(substr($methodName, 3));
             return $this->getConfigValue($propertyName);
         }
-        return NULL;
+
+        return null;
     }
 
     /**
      * Returns config value if exists
      *
-     * @param $index
+     * @param mixed $index
      * @return mixed
      */
-    protected function getConfigValue($index) {
+    protected function getConfigValue($index)
+    {
         if (is_array($this->options) &&
-            (array_key_exists($index, $this->options) || (($index = $index . '.') && array_key_exists($index, $this->options)))
+            (
+                array_key_exists($index, $this->options) ||
+                (($index = $index . '.') && array_key_exists($index, $this->options))
+            )
         ) {
             return $this->options[$index];
         }
+
         return null;
     }
 }

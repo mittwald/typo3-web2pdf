@@ -2,6 +2,10 @@
 .idea
 
 # Local files
+.Build
+.php-cs-fixer.cache
+.phpunit.result.cache
+
 /var/
 /public/
 /vendor/

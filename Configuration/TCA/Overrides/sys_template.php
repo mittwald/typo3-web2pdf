@@ -1,4 +1,5 @@
 <?php
+
 (function () {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
         'web2pdf',

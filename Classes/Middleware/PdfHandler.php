@@ -1,8 +1,30 @@
 <?php
 
+/****************************************************************
+ *  Copyright notice
+ *
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 namespace Mittwald\Web2pdf\Middleware;
-
 
 use Mittwald\Web2pdf\Options\ModuleOptions;
 use Mittwald\Web2pdf\View\PdfView;
@@ -15,24 +37,10 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class PdfHandler implements MiddlewareInterface
 {
-    /**
-     * @var PdfView
-     */
-    private $pdfView;
-    /**
-     * @var TypoScriptFrontendController
-     */
-    private $frontendController;
-    /**
-     * @var ModuleOptions
-     */
-    private $moduleOptions;
+    private PdfView $pdfView;
+    private TypoScriptFrontendController $frontendController;
+    private ModuleOptions $moduleOptions;
 
-    /**
-     * PdfHandler constructor.
-     * @param PdfView $pdfView
-     * @param ModuleOptions $moduleOptions
-     */
     public function __construct(PdfView $pdfView, ModuleOptions $moduleOptions)
     {
         $this->pdfView = $pdfView;
@@ -61,7 +69,7 @@ class PdfHandler implements MiddlewareInterface
 
         $response = new Response();
         $file = $this->pdfView->renderHtmlOutput($output->getBody(), $this->frontendController->generatePageTitle());
-        $destination = ($pdfDestination = $this->moduleOptions->getPdfDestination()) ? $pdfDestination : 'attachment';
+        $destination = $this->moduleOptions->getPdfDestination() ?? 'attachment';
 
         $response = $response->withHeader('Content-Transfer-Encoding', 'binary');
         $response->getBody()->write(file_get_contents($file));

@@ -1,18 +1,19 @@
 {
   "name": "mittwald/web2pdf",
   "description": "Web2PDF Extension",
-  "homepage": "http://www.mittwald.de",
+  "homepage": "https://www.mittwald.de",
   "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "type": "typo3-cms-extension",
   "require": {
-    "typo3/cms-core": "^10.4",
+    "typo3/cms-core": "^11.5",
     "mpdf/mpdf": "^8.0",
-    "php": ">=7.2"
+    "php": ">=7.4"
   },
   "require-dev": {
-    "nimut/testing-framework": "*"
+    "typo3/testing-framework": "^6.9.0",
+    "friendsofphp/php-cs-fixer": "^3.0"
   },
   "autoload": {
     "psr-4": {
@@ -32,15 +33,20 @@
   "scripts": {
     "extension-package": ["bash -x Build/package-version.sh"],
     "post-autoload-dump": [
-      "mkdir -p public/typo3conf/ext/",
-      "[ -L public/typo3conf/ext/web2pdf ] || ln -snvf ../../../. public/typo3conf/ext/web2pdf"
+      "mkdir -p .Build/public/typo3conf/ext/",
+      "[ -L .Build/public/typo3conf/ext/web2pdf ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/web2pdf"
     ]
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
   },
   "extra": {
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "extension-key": "web2pdf",
-      "web-dir": "public"
+      "app-dir": ".Build",
+      "web-dir": ".Build/public"
     }
   }
 }
