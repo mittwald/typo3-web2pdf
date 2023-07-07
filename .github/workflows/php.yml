@@ -35,3 +35,7 @@ jobs:
 
     - name: Run PHP lint
       run: find . -name \*.php ! -path "./.Build/*" ! -path "./public/*" ! -path "./vendor/*" | xargs -n1 php -d display_errors=stderr -l
+
+    - name: Validate PHP coding guidelines
+      run: |
+        .Build/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --stop-on-violation --using-cache=no
