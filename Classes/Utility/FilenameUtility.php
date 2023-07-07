@@ -28,20 +28,12 @@ namespace Mittwald\Web2pdf\Utility;
 
 class FilenameUtility
 {
-    /**
-     * @param string $fileName
-     * @return string
-     */
     public function convert(string $fileName): string
     {
         return preg_replace(['/\s/', '/\.[\.]+/', '/[^a-zA-Z0-9-_]+/'], ['_', '_', ''], $this->replaceSpecialChars($fileName));
     }
 
-    /**
-     * @param string $string
-     * @return string
-     */
-    protected function replaceSpecialChars(string $string)
+    protected function replaceSpecialChars(string $string): string
     {
         $string = html_entity_decode($string, ENT_COMPAT, 'UTF-8');
 

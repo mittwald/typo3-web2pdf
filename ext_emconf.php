@@ -34,11 +34,10 @@ $EM_CONF[$_EXTKEY] = [
     'dependencies' => 'extbase,fluid',
     'state' => 'stable',
     'clearCacheOnLoad' => '1',
-    'version' => '3.0.1',
+    'version' => '4.0.0-dev',
     'constraints' => [
         'depends' => [
-            'typo3' => '11.5.0-11.5.99',
-            'php' => '7.4.0-8.1.99',
+            'typo3' => '12.4.0-12.4.99',
         ],
     ],
 ];

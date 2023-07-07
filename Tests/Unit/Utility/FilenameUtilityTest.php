@@ -33,39 +33,19 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 class FilenameUtilityTest extends UnitTestCase
 {
-    /**
-     * @var FilenameUtility
-     */
-    protected $subject;
+    protected FilenameUtility $subject;
 
-    /**
-     * Setup
-     */
     protected function setUp(): void
     {
         $this->subject = new FilenameUtility();
     }
 
-    /**
-     * Teardown
-     */
     protected function tearDown(): void
     {
         unset($this->subject);
     }
 
-    /**
-     * @dataProvider getTitleData
-     */
-    public function testConvertMethod($string, $expected)
-    {
-        self::assertEquals($expected, $this->subject->convert($string));
-    }
-
-    /**
-     * @return array
-     */
-    public function getTitleData()
+    public static function getFilenameDataProvider(): array
     {
         return [
             ['my tést string', 'my_test_string'],
@@ -73,5 +53,13 @@ class FilenameUtilityTest extends UnitTestCase
             ['my test 123', 'my_test_123'],
             ['my tést 123', 'my_test_123'], // in case it should be é to e // works but could not find a way to test it
         ];
+    }
+
+    /**
+     * @dataProvider getFilenameDataProvider
+     */
+    public function testConvertMethod($string, $expected): void
+    {
+        self::assertEquals($expected, $this->subject->convert($string));
     }
 }

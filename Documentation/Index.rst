@@ -18,7 +18,7 @@ web2pdf
 		web2pdf
 
 	:Version:
-		3.0.0
+		4.0.0
 
 	:Language:
 		en
@@ -30,7 +30,7 @@ web2pdf
 		pdf,html2pdf,web2pdf
 
 	:Copyright:
-		2015 - 2021
+		2015 - 2023
 
 	:Author:
 		Mittwald CM Service GmbH & Co. KG

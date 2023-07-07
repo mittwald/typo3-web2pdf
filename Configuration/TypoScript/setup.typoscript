@@ -45,8 +45,5 @@ lib.web2pdf {
     action = generatePdfLink
 }
 
-# Need this line because TypoScript config is not loaded without this line
-# May be a bug in TYPO3 Core up to 7.2
-config.prefixLocalAnchors = all
 # Example include of generate pdf link
 #page.100 < lib.web2pdf

@@ -33,18 +33,15 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\Response;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class PdfHandler implements MiddlewareInterface
 {
     private PdfView $pdfView;
-    private TypoScriptFrontendController $frontendController;
     private ModuleOptions $moduleOptions;
 
     public function __construct(PdfView $pdfView, ModuleOptions $moduleOptions)
     {
         $this->pdfView = $pdfView;
-        $this->frontendController = TypoScriptFrontendController::getGlobalInstance();
         $this->moduleOptions = $moduleOptions;
     }
 
@@ -67,15 +64,14 @@ class PdfHandler implements MiddlewareInterface
 
         ob_clean();
 
+        $frontendController = $request->getAttribute('frontend.controller');
         $response = new Response();
-        $file = $this->pdfView->renderHtmlOutput($output->getBody(), $this->frontendController->generatePageTitle());
+        $file = $this->pdfView->renderHtmlOutput($output->getBody(), $frontendController->generatePageTitle());
         $destination = $this->moduleOptions->getPdfDestination() ?? 'attachment';
 
         $response = $response->withHeader('Content-Transfer-Encoding', 'binary');
         $response->getBody()->write(file_get_contents($file));
         $response = $response->withHeader('Content-Type', 'application/pdf');
-        $response = $response->withHeader('Content-Disposition', $destination . '; filename="' . basename($file) . '"');
-
-        return $response->withStatus(200);
+        return $response->withHeader('Content-Disposition', $destination . '; filename="' . basename($file) . '"');
     }
 }

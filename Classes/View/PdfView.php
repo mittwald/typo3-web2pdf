@@ -37,8 +37,8 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class PdfView
 {
-    const PREG_REPLACEMENT_KEY = 'pregReplacements';
-    const STR_REPLACEMENT_KEY = 'strReplacements';
+    public const PREG_REPLACEMENT_KEY = 'pregReplacements';
+    public const STR_REPLACEMENT_KEY = 'strReplacements';
 
     protected ModuleOptions $options;
     protected FilenameUtility $fileNameUtility;
@@ -56,11 +56,6 @@ class PdfView
 
     /**
      * Renders the PDF view
-     *
-     * @param string $content The HTML Code to convert
-     * @param string $pageTitle
-     * @return string $filePath
-     * @throws \Mpdf\MpdfException
      */
     public function renderHtmlOutput(string $content, string $pageTitle): string
     {
@@ -147,10 +142,6 @@ class PdfView
 
     /**
      * Renders the given templateName. Note, that the template must actually reside in Partials/ folder.
-     *
-     * @param string $templateName
-     * @param array $arguments
-     * @return string
      */
     protected function getPartial(string $templateName, array $arguments = []): string
     {

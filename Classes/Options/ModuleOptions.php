@@ -32,14 +32,12 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 class ModuleOptions implements SingletonInterface
 {
-    const QUERY_PARAMETER = 'printPage';
+    public const QUERY_PARAMETER = 'printPage';
     protected ConfigurationManagerInterface $configurationManager;
     protected array $options = [];
 
     /**
      * Fills typoscript settings into options
-     *
-     * @throws \TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException
      */
     public function __construct(ConfigurationManagerInterface $configurationManager)
     {
