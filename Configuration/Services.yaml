@@ -6,3 +6,6 @@ services:
 
   Mittwald\Web2pdf\:
     resource: '../Classes/*'
+
+  Mittwald\Web2pdf\View\PdfView:
+    public: true
