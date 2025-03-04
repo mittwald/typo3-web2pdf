@@ -7,12 +7,12 @@
   "prefer-stable": true,
   "type": "typo3-cms-extension",
   "require": {
-    "typo3/cms-core": "^12.4",
+    "typo3/cms-core": "^13.4",
     "mpdf/mpdf": "^8.0",
-    "php": ">=8.1"
+    "php": ">=8.2"
   },
   "require-dev": {
-    "typo3/testing-framework": "^7.0.0",
+    "typo3/testing-framework": "^9.0.0",
     "friendsofphp/php-cs-fixer": "^3.0"
   },
   "autoload": {
@@ -22,20 +22,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Mittwald\\Web2pdf\\Tests\\": "Tests",
-      "TYPO3\\CMS\\Core\\Tests\\": "vendor/typo3/cms/typo3/sysext/core/Tests/",
-      "TYPO3\\CMS\\Fluid\\Tests\\": "vendor/typo3/cms/typo3/sysext/fluid/Tests/"
+      "Mittwald\\Web2pdf\\Tests\\": "Tests"
     }
   },
   "replace": {
     "typo3-ter/web2pdf": "self.version"
-  },
-  "scripts": {
-    "extension-package": ["bash -x Build/package-version.sh"],
-    "post-autoload-dump": [
-      "mkdir -p .Build/public/typo3conf/ext/",
-      "[ -L .Build/public/typo3conf/ext/web2pdf ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/web2pdf"
-    ]
   },
   "config": {
     "vendor-dir": ".Build/vendor",

@@ -1,5 +1,6 @@
 <?php
 
+use Mittwald\Web2pdf\Controller\PdfController;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
@@ -17,6 +18,6 @@ if (file_exists($mpdfAutoload)) {
 ExtensionUtility::configurePlugin(
     'web2pdf',
     'Pi1',
-    [\Mittwald\Web2pdf\Controller\PdfController::class => 'generatePdfLink'],
-    [\Mittwald\Web2pdf\Controller\PdfController::class => 'generatePdfLink']
+    [PdfController::class => 'generatePdfLink'],
+    [PdfController::class => 'generatePdfLink']
 );

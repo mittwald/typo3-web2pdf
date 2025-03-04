@@ -27,6 +27,8 @@
 namespace Mittwald\Tests\Utility;
 
 use Mittwald\Web2pdf\Utility\FilenameUtility;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -56,10 +58,9 @@ class FilenameUtilityTest extends UnitTestCase
         ];
     }
 
-    /**
-     * @dataProvider getFilenameDataProvider
-     */
-    public function testConvertMethod($string, $expected): void
+    #[DataProvider('getFilenameDataProvider')]
+    #[Test]
+    public function convertMethodReturnsExpectedResult($string, $expected): void
     {
         self::assertEquals($expected, $this->subject->convert($string));
     }

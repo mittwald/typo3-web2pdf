@@ -36,14 +36,7 @@ use TYPO3\CMS\Core\Http\Response;
 
 class PdfHandler implements MiddlewareInterface
 {
-    private PdfView $pdfView;
-    private ModuleOptions $moduleOptions;
-
-    public function __construct(PdfView $pdfView, ModuleOptions $moduleOptions)
-    {
-        $this->pdfView = $pdfView;
-        $this->moduleOptions = $moduleOptions;
-    }
+    public function __construct(private readonly PdfView $pdfView, private readonly ModuleOptions $moduleOptions) {}
 
     /**
      * @inheritDoc
@@ -66,7 +59,11 @@ class PdfHandler implements MiddlewareInterface
 
         $frontendController = $request->getAttribute('frontend.controller');
         $response = new Response();
-        $file = $this->pdfView->renderHtmlOutput($output->getBody(), $frontendController->generatePageTitle());
+        $file = $this->pdfView->renderHtmlOutput(
+            $request,
+            $output->getBody(),
+            $frontendController->generatePageTitle($request)
+        );
         $destination = $this->moduleOptions->getPdfDestination() ?? 'attachment';
 
         $response = $response->withHeader('Content-Transfer-Encoding', 'binary');

@@ -30,34 +30,29 @@ use Mittwald\Web2pdf\Options\ModuleOptions;
 use Mittwald\Web2pdf\Utility\FilenameUtility;
 use Mittwald\Web2pdf\Utility\PdfLinkUtility;
 use Mpdf\Mpdf;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 class PdfView
 {
     public const PREG_REPLACEMENT_KEY = 'pregReplacements';
     public const STR_REPLACEMENT_KEY = 'strReplacements';
 
-    protected ModuleOptions $options;
-    protected FilenameUtility $fileNameUtility;
-    protected PdfLinkUtility $pdfLinkUtility;
-
     public function __construct(
-        ModuleOptions $options,
-        FilenameUtility $fileNameUtility,
-        PdfLinkUtility $pdfLinkUtility
-    ) {
-        $this->options = $options;
-        $this->fileNameUtility = $fileNameUtility;
-        $this->pdfLinkUtility = $pdfLinkUtility;
-    }
+        protected readonly ModuleOptions $options,
+        protected readonly FilenameUtility $fileNameUtility,
+        protected readonly PdfLinkUtility $pdfLinkUtility,
+        protected readonly ViewFactoryInterface $viewFactory
+    ) {}
 
     /**
      * Renders the PDF view
      */
-    public function renderHtmlOutput(string $content, string $pageTitle): string
+    public function renderHtmlOutput(ServerRequestInterface $request, string $content, string $pageTitle): string
     {
         $fileName = $this->fileNameUtility->convert($pageTitle) . '.pdf';
         $filePath = Environment::getVarPath() . '/web2pdf/' . $fileName;
@@ -67,11 +62,11 @@ class PdfView
 
         // Add Header if configured
         if ($this->options->getUseCustomHeader()) {
-            $pdf->SetHTMLHeader($this->getPartial('Header', ['title' => $pageTitle]));
+            $pdf->SetHTMLHeader($this->getPartial($request, 'Header', ['title' => $pageTitle]));
         }
         // Add Footer if configured
         if ($this->options->getUseCustomFooter()) {
-            $pdf->SetHTMLFooter($this->getPartial('Footer', ['title' => $pageTitle]));
+            $pdf->SetHTMLFooter($this->getPartial($request, 'Footer', ['title' => $pageTitle]));
         }
 
         $pdf->WriteHTML($content);
@@ -82,9 +77,6 @@ class PdfView
 
     /**
      * Replacements of configured strings
-     *
-     * @param string $content
-     * @return string
      */
     private function replaceStrings(string $content): string
     {
@@ -105,8 +97,6 @@ class PdfView
 
     /**
      * Returns configured mPDF object
-     *
-     * @return Mpdf
      */
     protected function getPdfObject(): Mpdf
     {
@@ -143,17 +133,20 @@ class PdfView
     /**
      * Renders the given templateName. Note, that the template must actually reside in Partials/ folder.
      */
-    protected function getPartial(string $templateName, array $arguments = []): string
+    protected function getPartial(ServerRequestInterface $request, string $template, array $arguments = []): string
     {
-        $partial = GeneralUtility::makeInstance(StandaloneView::class);
-        $partial->setLayoutRootPaths($this->options->getLayoutRootPaths());
-        $partial->setPartialRootPaths($this->options->getPartialRootPaths());
-        $partialsPaths = $partial->getPartialRootPaths();
-        $partial->setTemplatePathAndFilename(
-            GeneralUtility::getFileAbsFileName(end($partialsPaths)) . 'Pdf/' . ucfirst($templateName) . '.html'
-        );
-        $partial->assign('data', $arguments);
+        $partialPaths = $this->options->getPartialRootPaths();
+        $template = GeneralUtility::getFileAbsFileName(end($partialPaths)) . 'Pdf/' . ucfirst($template) . '.html';
 
-        return $partial->render();
+        $viewFactoryData = new ViewFactoryData(
+            partialRootPaths: $partialPaths,
+            layoutRootPaths: $this->options->getLayoutRootPaths(),
+            templatePathAndFilename: $template,
+            request: $request,
+        );
+        $view = $this->viewFactory->create($viewFactoryData);
+        $view->assign('data', $arguments);
+
+        return $view->render();
     }
 }

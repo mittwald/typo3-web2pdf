@@ -27,6 +27,7 @@
 namespace Mittwald\Tests\Utility;
 
 use Mittwald\Web2pdf\Utility\PdfLinkUtility;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -53,7 +54,8 @@ class PdfLinkUtilityTest extends UnitTestCase
         $this->subject->expects(self::once())->method('getHost')->willReturn($this->getDefaultHost());
     }
 
-    public function testKeepLinksIfNoSectionGiven(): void
+    #[Test]
+    public function keepLinksIfNoSectionGiven(): void
     {
         $this->subject->expects(self::once())->method('getSiteUri')->willReturn($this->getSiteUri());
         $return = $this->subject->replace($this->getLink($this->getSiteUri()));
