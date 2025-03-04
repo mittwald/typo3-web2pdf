@@ -40,7 +40,6 @@
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "extension-key": "web2pdf",
-      "app-dir": ".Build",
       "web-dir": ".Build/public"
     }
   }
