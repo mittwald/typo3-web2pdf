@@ -35,14 +35,10 @@ plugin.tx_web2pdf {
     }
 }
 
-lib.web2pdf = USER
+lib.web2pdf = EXTBASEPLUGIN
 lib.web2pdf {
-    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     pluginName = Pi1
     extensionName = Web2pdf
-    vendorName = Mittwald
-    controller = Pdf
-    action = generatePdfLink
 }
 
 # Example include of generate pdf link

@@ -19,5 +19,6 @@ ExtensionUtility::configurePlugin(
     'web2pdf',
     'Pi1',
     [PdfController::class => 'generatePdfLink'],
-    [PdfController::class => 'generatePdfLink']
+    [PdfController::class => 'generatePdfLink'],
+    ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
