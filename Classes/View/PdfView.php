@@ -43,7 +43,6 @@ class PdfView
     public const STR_REPLACEMENT_KEY = 'strReplacements';
 
     public function __construct(
-        protected readonly ModuleOptions $options,
         protected readonly FilenameUtility $fileNameUtility,
         protected readonly PdfLinkUtility $pdfLinkUtility,
         protected readonly ViewFactoryInterface $viewFactory
@@ -57,16 +56,17 @@ class PdfView
         $fileName = $this->fileNameUtility->convert($pageTitle) . '.pdf';
         $filePath = Environment::getVarPath() . '/web2pdf/' . $fileName;
 
-        $content = $this->replaceStrings($content);
-        $pdf = $this->getPdfObject();
+        $options = GeneralUtility::makeInstance(ModuleOptions::class);
+        $content = $this->replaceStrings($options, $content);
+        $pdf = $this->getPdfObject($options);
 
         // Add Header if configured
-        if ($this->options->getUseCustomHeader()) {
-            $pdf->SetHTMLHeader($this->getPartial($request, 'Header', ['title' => $pageTitle]));
+        if ($options->getUseCustomHeader()) {
+            $pdf->SetHTMLHeader($this->getPartial($request, $options, 'Header', ['title' => $pageTitle]));
         }
         // Add Footer if configured
-        if ($this->options->getUseCustomFooter()) {
-            $pdf->SetHTMLFooter($this->getPartial($request, 'Footer', ['title' => $pageTitle]));
+        if ($options->getUseCustomFooter()) {
+            $pdf->SetHTMLFooter($this->getPartial($request, $options, 'Footer', ['title' => $pageTitle]));
         }
 
         $pdf->WriteHTML($content);
@@ -78,16 +78,16 @@ class PdfView
     /**
      * Replacements of configured strings
      */
-    private function replaceStrings(string $content): string
+    private function replaceStrings(ModuleOptions $options, string $content): string
     {
-        if (is_array($this->options->getStrReplacements())) {
-            foreach ($this->options->getStrReplacements() as $searchString => $replacement) {
+        if (is_array($options->getStrReplacements())) {
+            foreach ($options->getStrReplacements() as $searchString => $replacement) {
                 $content = str_replace($searchString, $replacement, $content);
             }
         }
 
-        if (is_array($this->options->getPregReplacements())) {
-            foreach ($this->options->getPregReplacements() as $pattern => $patternReplacement) {
+        if (is_array($options->getPregReplacements())) {
+            foreach ($options->getPregReplacements() as $pattern => $patternReplacement) {
                 $content = preg_replace($pattern, $patternReplacement, $content);
             }
         }
@@ -98,16 +98,16 @@ class PdfView
     /**
      * Returns configured mPDF object
      */
-    protected function getPdfObject(): Mpdf
+    protected function getPdfObject(ModuleOptions $options): Mpdf
     {
         // Get options from TypoScript
-        $pageFormat = $this->options->getPdfPageFormat() ?? 'A4';
-        $pageOrientation = $this->options->getPdfPageOrientation() ?? 'L';
-        $leftMargin = $this->options->getPdfLeftMargin() ?? '15';
-        $rightMargin = $this->options->getPdfRightMargin() ?? '15';
-        $bottomMargin = $this->options->getPdfBottomMargin() ?? '15';
-        $topMargin = $this->options->getPdfTopMargin() ?? '15';
-        $styleSheet =  $this->options->getPdfStyleSheet() ?? 'print';
+        $pageFormat = $options->getPdfPageFormat() ?? 'A4';
+        $pageOrientation = $options->getPdfPageOrientation() ?? 'L';
+        $leftMargin = $options->getPdfLeftMargin() ?? '15';
+        $rightMargin = $options->getPdfRightMargin() ?? '15';
+        $bottomMargin = $options->getPdfBottomMargin() ?? '15';
+        $topMargin = $options->getPdfTopMargin() ?? '15';
+        $styleSheet =  $options->getPdfStyleSheet() ?? 'print';
 
         $pdf = new Mpdf([
             'format' => $pageFormat,
@@ -133,14 +133,18 @@ class PdfView
     /**
      * Renders the given templateName. Note, that the template must actually reside in Partials/ folder.
      */
-    protected function getPartial(ServerRequestInterface $request, string $template, array $arguments = []): string
-    {
-        $partialPaths = $this->options->getPartialRootPaths();
+    protected function getPartial(
+        ServerRequestInterface $request,
+        ModuleOptions $options,
+        string $template,
+        array $arguments = []
+    ): string {
+        $partialPaths = $options->getPartialRootPaths();
         $template = GeneralUtility::getFileAbsFileName(end($partialPaths)) . 'Pdf/' . ucfirst($template) . '.html';
 
         $viewFactoryData = new ViewFactoryData(
             partialRootPaths: $partialPaths,
-            layoutRootPaths: $this->options->getLayoutRootPaths(),
+            layoutRootPaths: $options->getLayoutRootPaths(),
             templatePathAndFilename: $template,
             request: $request,
         );

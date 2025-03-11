@@ -181,7 +181,7 @@ SearchString and ReplacementString need to have the same key
 Can be set via TypoScript using following options:
 ::
 
-	plugin.web2pdf.settings {
+	plugin.tx_web2pdf.settings {
 		pdfPregSearch {
 			1 =
 		}
@@ -202,7 +202,7 @@ Can be set via TypoScript using following options:
 Example: Replace `Hello` with `Good Night`
 ::
 
-	plugin.web2pdf.settings {
+	plugin.tx_web2pdf.settings {
 
 		pdfStrSearch {
 			1 = Hello

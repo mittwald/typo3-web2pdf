@@ -33,10 +33,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PdfHandler implements MiddlewareInterface
 {
-    public function __construct(private readonly PdfView $pdfView, private readonly ModuleOptions $moduleOptions) {}
+    public function __construct(private readonly PdfView $pdfView) {}
 
     /**
      * @inheritDoc
@@ -57,6 +58,7 @@ class PdfHandler implements MiddlewareInterface
 
         ob_clean();
 
+        $moduleOptions = GeneralUtility::makeInstance(ModuleOptions::class);
         $frontendController = $request->getAttribute('frontend.controller');
         $response = new Response();
         $file = $this->pdfView->renderHtmlOutput(
@@ -64,7 +66,8 @@ class PdfHandler implements MiddlewareInterface
             $output->getBody(),
             $frontendController->generatePageTitle($request)
         );
-        $destination = $this->moduleOptions->getPdfDestination() ?? 'attachment';
+
+        $destination = $moduleOptions->getPdfDestination() ?? 'attachment';
 
         $response = $response->withHeader('Content-Transfer-Encoding', 'binary');
         $response->getBody()->write(file_get_contents($file));
