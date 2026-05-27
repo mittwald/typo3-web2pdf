@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         php: ['8.2', '8.3', '8.4', '8.5']
-        typo3: ['^13.4', '^14.0', '^14.3']
+        typo3: ['^13.4', '^14.3']
     runs-on: ubuntu-latest
     name: PHP ${{ matrix.php }}, TYPO3 ${{ matrix.typo3 }}
     
