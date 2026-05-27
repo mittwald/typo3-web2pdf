@@ -1,4 +1,4 @@
-﻿.. ==================================================
+.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -11,39 +11,34 @@
 Configuration Reference
 =======================
 
-.. _configuration-typoscript:
+.. _configuration-site-settings:
 
-Template
---------
-Override ``plugin.tx_web2pdf.view`` to use you own template. Default template is found in
-``EXT:web2pdf/Resources/Private/Templates/Pdf/GeneratePdfLink.html``
+Site Settings (Site Set)
+------------------------
 
-TypoScript Reference
---------------------
+When the extension is included via its **Site Set**, all settings are available
+in the TYPO3 backend under :guilabel:`Site Management > Sites > Settings`.
+Changes take effect immediately without editing TypoScript.
 
-* PDF Configuration can be set in constant editor or TypoScript setup
-* Include Static Typoscript Template in BackendModule "Templates"
-* Example Footer and Header HTML files can be found in partialRootPath/Pdf/Header.html (with pagenum and date)
-
-The following settings are available in ``plugin.tx_web2pdf.settings``:
+The following settings are grouped under the **PDF Settings** category:
 
 .. t3-field-list-table::
  :header-rows: 1
 
  - :Field:
-         Field:
+         Field
 
    :Description:
-         Description:
+         Description
 
    :Default:
-         Default:
+         Default
 
  - :Field:
          pdfPageFormat
 
    :Description:
-         PDF page format (e.g A4 or A5)
+         Paper size of the generated PDF. Allowed values: ``A4``, ``A3``
 
    :Default:
          A4
@@ -52,10 +47,7 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          pdfPageOrientation
 
    :Description:
-         Page orientation. Possible values:
-
-         * L = Landscape
-         * P = Portrait
+         Page orientation. ``P`` = Portrait, ``L`` = Landscape
 
    :Default:
          P
@@ -64,7 +56,7 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          pdfLeftMargin
 
    :Description:
-         Margin left
+         Left margin in millimetres
 
    :Default:
          15
@@ -73,7 +65,7 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          pdfRightMargin
 
    :Description:
-         Margin right
+         Right margin in millimetres
 
    :Default:
          15
@@ -82,7 +74,7 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          pdfTopMargin
 
    :Description:
-         Margin top
+         Top margin in millimetres
 
    :Default:
          15
@@ -91,7 +83,7 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          pdfBottomMargin
 
    :Description:
-         Margin bottom
+         Bottom margin in millimetres
 
    :Default:
          15
@@ -100,7 +92,8 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          pdfStyleSheet
 
    :Description:
-         Which style sheet media should be loaded (`all` is always included)
+         CSS media type applied when rendering the page for PDF output.
+         ``allAndPrint`` includes both ``all`` and ``print`` rules.
 
    :Default:
          allAndPrint
@@ -109,10 +102,10 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          pdfDestination
 
    :Description:
-         PDF download destination. Possible values:
+         Controls how the browser handles the PDF response.
 
-         * ``attachment`` - download generated PDF file
-         * ``inline`` - show generated PDF file in browser
+         * ``attachment`` — triggers a file download
+         * ``inline`` — opens the PDF directly in the browser
 
    :Default:
          attachment
@@ -121,94 +114,112 @@ The following settings are available in ``plugin.tx_web2pdf.settings``:
          useCustomHeader
 
    :Description:
-         If set, a custom page header will be added to the PDF document. The template of the header is located in
-         ``Resources/Private/Partials/Pdf/Header.html``
+         If enabled, renders ``Partials/Pdf/Header.html`` as a repeating
+         header on every PDF page.
 
    :Default:
-         0
+         false
 
  - :Field:
          useCustomFooter
 
    :Description:
-         If set, a custom page footer will be added to the PDF document. The template of the footer is located in
-         ``Resources/Private/Partials/Pdf/Footer.html``
+         If enabled, renders ``Partials/Pdf/Footer.html`` as a repeating
+         footer on every PDF page.
 
    :Default:
-         0
+         false
+
+The following settings are grouped under the **View** category:
+
+.. t3-field-list-table::
+ :header-rows: 1
 
  - :Field:
-         pdfPregSearch
+         Field
 
    :Description:
-         Array of search patterns used with :php:`preg_replace` to replace content in the generated PDF
+         Description
 
    :Default:
-         empty
+         Default
 
  - :Field:
-         pdfPregReplace
+         templateRootPath
 
    :Description:
-         Array of replacements used for ``pdfPregSearch``
+         Path to the Fluid template directory.
 
    :Default:
-         empty
+         EXT:web2pdf/Resources/Private/Templates/
 
  - :Field:
-         pdfStrSearch
+         partialRootPath
 
    :Description:
-         Array of search strings used with :php:`str_replace` to replace content in the generated PDF
+         Path to the Fluid partials directory. Custom PDF header and footer
+         templates are looked up here.
 
    :Default:
-         empty
+         EXT:web2pdf/Resources/Private/Partials/
 
  - :Field:
-         pdfStrSearch
+         layoutRootPath
 
    :Description:
-         Array of replacements used for ``pdfStrReplace``
+         Path to the Fluid layouts directory.
 
    :Default:
-         empty
+         EXT:web2pdf/Resources/Private/Layouts/
 
-Example for replacements
-------------------------
-There are two replacements options: StringReplacement AND/OR PregReplacement
-SearchString and ReplacementString need to have the same key
+.. _configuration-typoscript:
 
-Can be set via TypoScript using following options:
-::
+TypoScript Reference (Static TypoScript / advanced)
+----------------------------------------------------
 
-	plugin.tx_web2pdf.settings {
-		pdfPregSearch {
-			1 =
-		}
+When using the classic Static TypoScript approach, or when you need settings
+that are not exposed as Site Settings (such as string replacements), configure
+the extension in ``plugin.tx_web2pdf``.
 
-		pdfPregReplace {
-			1 =
-		}
+Template
+~~~~~~~~
 
-		pdfStrSearch {
-			1 =
-		}
+Override ``plugin.tx_web2pdf.view`` to use a custom template. The default
+template is ``EXT:web2pdf/Resources/Private/Templates/Pdf/GeneratePdfLink.html``.
 
-		pdfStrReplace {
-			1 =
-		}
+String replacements
+~~~~~~~~~~~~~~~~~~~
 
-	}
-Example: Replace `Hello` with `Good Night`
-::
+Two replacement mechanisms are available and can be combined. Search and
+replacement arrays must use matching numeric keys.
 
-	plugin.tx_web2pdf.settings {
+**Regex replacement** (``preg_replace``):
 
-		pdfStrSearch {
-			1 = Hello
-		}
+.. code-block:: typoscript
 
-		pdfStrReplace {
-			1 = Good Night
-		}
-	}
+   plugin.tx_web2pdf.settings {
+       pdfPregSearch {
+           1 = /Hello/
+       }
+       pdfPregReplace {
+           1 = Hi
+       }
+   }
+
+**Plain string replacement** (``str_replace``):
+
+.. code-block:: typoscript
+
+   plugin.tx_web2pdf.settings {
+       pdfStrSearch {
+           1 = Hello
+       }
+       pdfStrReplace {
+           1 = Good Night
+       }
+   }
+
+.. note::
+
+   String replacements cannot be configured via Site Settings and always
+   require TypoScript.

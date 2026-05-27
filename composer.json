@@ -3,11 +3,12 @@
   "description": "Web2PDF Extension",
   "homepage": "https://www.mittwald.de",
   "license": "GPL-2.0-or-later",
+  "version": "6.0.0",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "type": "typo3-cms-extension",
   "require": {
-    "typo3/cms-core": "^13.4",
+    "typo3/cms-core": "^13.4 || ^14.0",
     "mpdf/mpdf": "^8.0",
     "php": ">=8.2"
   },
