@@ -46,9 +46,9 @@ class ModuleOptions implements SingletonInterface
             ->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
         // Check if typoscript is given before, if not ignore
-        if (isset($configuration['plugin.']['tx_web2pdf.']['settings.']) &&
-            isset($configuration['plugin.']['tx_web2pdf.']['view.']) &&
-            ($this->options = array_merge(
+        if (isset($configuration['plugin.']['tx_web2pdf.']['settings.'])
+            && isset($configuration['plugin.']['tx_web2pdf.']['view.'])
+            && ($this->options = array_merge(
                 $configuration['plugin.']['tx_web2pdf.']['settings.'],
                 $configuration['plugin.']['tx_web2pdf.']['view.']
             ))
@@ -115,10 +115,10 @@ class ModuleOptions implements SingletonInterface
      */
     protected function getConfigValue($index)
     {
-        if (is_array($this->options) &&
-            (
-                array_key_exists($index, $this->options) ||
-                (($index = $index . '.') && array_key_exists($index, $this->options))
+        if (is_array($this->options)
+            && (
+                array_key_exists($index, $this->options)
+                || (($index = $index . '.') && array_key_exists($index, $this->options))
             )
         ) {
             return $this->options[$index];
