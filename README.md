@@ -12,8 +12,7 @@ Uses CSS to render PDF Output. CSS with media key "all" is included automaticall
 
 | Version | TYPO3      | PHP       | Support/Development                  |
 |---------|------------|-----------|--------------------------------------|
-| 6.x     | 13.4, 14.x | >= 8.2    | Features, Bugfixes, Security Updates |
-| 5.x     | 13.4       | >= 8.2    | Security Updates                     |
+| 5.x     | 13.4, 14.x | >= 8.2    | Features, Bugfixes, Security Updates |
 | 4.x     | 12.4       | >= 8.1    | Security Updates                     |
 | 3.x     | 11.5       | 7.4 - 8.x | Support dropped                      |
 | 2.x     | 10.4       | 7.2 - 7.4 | Support dropped                      |

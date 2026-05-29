@@ -18,7 +18,7 @@ web2pdf
 		web2pdf
 
 	:Version:
-		6.0.0
+		5.1.0
 
 	:Language:
 		en
