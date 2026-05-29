@@ -1,4 +1,4 @@
-﻿.. ==================================================
+.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -18,7 +18,7 @@ web2pdf
 		web2pdf
 
 	:Version:
-		4.0.0
+		5.1.0
 
 	:Language:
 		en
@@ -30,7 +30,7 @@ web2pdf
 		pdf,html2pdf,web2pdf
 
 	:Copyright:
-		2015 - 2023
+		2015 - 2026
 
 	:Author:
 		Mittwald CM Service GmbH & Co. KG

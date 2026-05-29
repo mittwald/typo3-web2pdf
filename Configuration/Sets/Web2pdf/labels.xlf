@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:web2pdf/Configuration/Sets/Web2pdf/labels.xlf" product-name="web2pdf">
+    <header/>
+    <body>
+      <trans-unit id="label">
+        <source>Web2PDF Generator</source>
+      </trans-unit>
+
+      <trans-unit id="categories.web2pdf">
+        <source>Web2PDF</source>
+      </trans-unit>
+      <trans-unit id="categories.web2pdf.view">
+        <source>View</source>
+      </trans-unit>
+      <trans-unit id="categories.web2pdf.pdf">
+        <source>PDF Settings</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.view.templateRootPath">
+        <source>Template root path</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.view.templateRootPath">
+        <source>Path to the Fluid template directory.</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.view.partialRootPath">
+        <source>Partial root path</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.view.partialRootPath">
+        <source>Path to the Fluid partials directory. Custom PDF header and footer templates are looked up here.</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.view.layoutRootPath">
+        <source>Layout root path</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.view.layoutRootPath">
+        <source>Path to the Fluid layouts directory.</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfPageFormat">
+        <source>Page format</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.settings.pdfPageFormat">
+        <source>Paper size of the generated PDF document.</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfPageFormat.enum.A4">
+        <source>A4</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfPageFormat.enum.A3">
+        <source>A3</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfPageOrientation">
+        <source>Page orientation</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.settings.pdfPageOrientation">
+        <source>Orientation of the generated PDF pages.</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfPageOrientation.enum.P">
+        <source>Portrait</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfPageOrientation.enum.L">
+        <source>Landscape</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfLeftMargin">
+        <source>Left margin (mm)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfRightMargin">
+        <source>Right margin (mm)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfTopMargin">
+        <source>Top margin (mm)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfBottomMargin">
+        <source>Bottom margin (mm)</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfStyleSheet">
+        <source>CSS media type</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.settings.pdfStyleSheet">
+        <source>CSS media type used when rendering the page for PDF output.</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfStyleSheet.enum.allAndPrint">
+        <source>All &amp; Print</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfStyleSheet.enum.print">
+        <source>Print</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfStyleSheet.enum.screen">
+        <source>Screen</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfDestination">
+        <source>PDF destination</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.settings.pdfDestination">
+        <source>Controls whether the PDF is offered as a download (attachment) or displayed inline in the browser.</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfDestination.enum.attachment">
+        <source>Download (attachment)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.pdfDestination.enum.inline">
+        <source>Inline (open in browser)</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.useCustomHeader">
+        <source>Use custom PDF header</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.settings.useCustomHeader">
+        <source>If enabled, renders the Fluid partial Pdf/Header.html as a repeating header on every PDF page.</source>
+      </trans-unit>
+
+      <trans-unit id="settings.plugin.tx_web2pdf.settings.useCustomFooter">
+        <source>Use custom PDF footer</source>
+      </trans-unit>
+      <trans-unit id="settings.description.plugin.tx_web2pdf.settings.useCustomFooter">
+        <source>If enabled, renders the Fluid partial Pdf/Footer.html as a repeating footer on every PDF page.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

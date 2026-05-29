@@ -34,6 +34,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\PageInformation;
 
 class PdfHandler implements MiddlewareInterface
 {
@@ -59,12 +60,16 @@ class PdfHandler implements MiddlewareInterface
         ob_clean();
 
         $moduleOptions = GeneralUtility::makeInstance(ModuleOptions::class);
-        $frontendController = $request->getAttribute('frontend.controller');
+
+        /** @var PageInformation|null $pageInformation */
+        $pageInformation = $request->getAttribute('frontend.page.information');
+        $pageTitle = $pageInformation !== null ? (string)($pageInformation->getPageRecord()['title'] ?? '') : '';
+
         $response = new Response();
         $file = $this->pdfView->renderHtmlOutput(
             $request,
-            $output->getBody(),
-            $frontendController->generatePageTitle($request)
+            (string)$output->getBody(),
+            $pageTitle
         );
 
         $destination = $moduleOptions->getPdfDestination() ?? 'attachment';

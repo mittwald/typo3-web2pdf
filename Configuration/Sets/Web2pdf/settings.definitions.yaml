@@ -1,0 +1,88 @@
+categories:
+  web2pdf:
+    label: 'Web2PDF'
+  web2pdf.view:
+    label: 'View'
+    parent: web2pdf
+  web2pdf.pdf:
+    label: 'PDF Settings'
+    parent: web2pdf
+
+settings:
+  plugin.tx_web2pdf.view.templateRootPath:
+    type: string
+    default: 'EXT:web2pdf/Resources/Private/Templates/'
+    category: web2pdf.view
+
+  plugin.tx_web2pdf.view.partialRootPath:
+    type: string
+    default: 'EXT:web2pdf/Resources/Private/Partials/'
+    category: web2pdf.view
+
+  plugin.tx_web2pdf.view.layoutRootPath:
+    type: string
+    default: 'EXT:web2pdf/Resources/Private/Layouts/'
+    category: web2pdf.view
+
+  plugin.tx_web2pdf.settings.pdfPageFormat:
+    type: string
+    default: 'A4'
+    enum:
+      - 'A4'
+      - 'A3'
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.pdfPageOrientation:
+    type: string
+    default: 'P'
+    enum:
+      - 'P'
+      - 'L'
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.pdfLeftMargin:
+    type: int
+    default: 15
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.pdfRightMargin:
+    type: int
+    default: 15
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.pdfTopMargin:
+    type: int
+    default: 15
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.pdfBottomMargin:
+    type: int
+    default: 15
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.pdfStyleSheet:
+    type: string
+    default: 'allAndPrint'
+    enum:
+      - 'allAndPrint'
+      - 'print'
+      - 'screen'
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.pdfDestination:
+    type: string
+    default: 'attachment'
+    enum:
+      - 'attachment'
+      - 'inline'
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.useCustomHeader:
+    type: bool
+    default: false
+    category: web2pdf.pdf
+
+  plugin.tx_web2pdf.settings.useCustomFooter:
+    type: bool
+    default: false
+    category: web2pdf.pdf
